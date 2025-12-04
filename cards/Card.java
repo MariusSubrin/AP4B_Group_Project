@@ -1,3 +1,4 @@
+package cards;
 public abstract class Card {
 
     // Enum pour représenter l'état de la carte
@@ -64,3 +65,4 @@ public abstract class Card {
     public abstract void appliquerEffet(); 
     //Paramètres à changer en fonction des cartes
 }
+
