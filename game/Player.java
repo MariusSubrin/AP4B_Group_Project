@@ -1,3 +1,4 @@
+package game;
 public class Player {
 
     // Compteur global pour attribuer des IDs uniques

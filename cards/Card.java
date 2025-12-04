@@ -1,4 +1,5 @@
 package cards;
+
 public abstract class Card {
 
     // Enum pour représenter l'état de la carte
@@ -9,7 +10,10 @@ public abstract class Card {
         DEFAUSSEE
     }
 
-    private static int compteurId = 0;
+    private static int compteurId = 0; 
+    //C'est bon en private car le constructeur mère est appelé avant
+
+    // Attributs de la classe
 
     protected int idCard;
     protected String nameCard;
