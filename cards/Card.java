@@ -68,13 +68,16 @@ public abstract class Card {
 
     public void defausser() {
         this.stateCard = State.DEFAUSSEE;
+        CoreGame.carteDefausse.add(this);
+            this.userCard.hand.remove(this);
+            this.userCard = null;
     }
 
     public void cacher() {
         this.stateCard = State.CACHEE;
     }
 
-    @Override //Pour afficher la carte au joueur
+    @Override //Pour afficher la carte au joueur (les vérifications se feront dans la méthode affiche de la classe Player)
     public String toString() {
         return "Card{id=" + idCard +
                ", name='" + nameCard + '\'' +
@@ -82,24 +85,36 @@ public abstract class Card {
                '}';
     }
 
-    public static Player demanderCible(Player userCard) {
+    public Player demanderCible() {
+
         Scanner sc = new Scanner(System.in);
+        boolean selectionValide = false;
 
-        while(true) { //C'est pas une boucle infinie ?
-            System.out.println("\n" + userCard.getNom() + ", qui vises tu ? :");
+            System.out.println("\n" + this.userCard.getNom() + ", qui vises tu ? :");
             System.out.print("Nom : ");
-            String nomChoisi = sc.nextLine().trim();
 
-            // Cherche un joueur avec ce nom
-            for (Player p : CoreGame.joueurs) {
-                if (p.getNom().equalsIgnoreCase(nomChoisi) && !(p.isElimine()) && !(p.hasProtection())) { //Si on mettais un while pour vérifier que la selection est valide ? Il faudrait aussi vérifier si le joueur n'est pas éliminé ou protégé sinon il choisit quelqu'un d'autre
-                    return p; //Donc retourner un joueur
-                }
+        while(!selectionValide)
+            {
+                String nomChoisi = sc.nextLine().trim();
+                // Cherche un joueur avec ce nom
+                for (Player p : CoreGame.joueurs) 
+                    {
+                        if (p.getNom().equalsIgnoreCase(nomChoisi) && ((p.isElimine()) || (p.hasProtection()))) 
+                            {
+                                System.out.println("Vous ne pouvez pas choisir ce joueur. Choisissez-en un autre.");
+                            }
+                        else if (p.getNom().equalsIgnoreCase(nomChoisi) && CoreGame.joueurs.contains(p)) 
+                            {
+                                selectionValide = true;
+                                return p; //Retourne le joueur ciblé
+                            }
+                        else
+                            {
+                                System.out.println("Aucun joueur ne s'appelle \"" + nomChoisi + "\".");
+                            }
+                        }
             }
-
-            // Si pas trouvé
-            System.out.println("Aucun joueur ne s'appelle \"" + nomChoisi + "\".");
-        }
+        return null; //Au cas où
     }
 
     // Méthode "virtuelle pure" (méthode abstraite)
