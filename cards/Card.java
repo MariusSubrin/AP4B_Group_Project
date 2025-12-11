@@ -60,7 +60,12 @@ public abstract class Card {
     public void defausser(Player player) {
         this.stateCard = State.DEFAUSSEE;
         CoreGame.carteDefausse.add(this);
-            player.hand.remove(this);
+        player.hand.remove(this);
+    }
+
+    public void jouerCarte(Player joueurActif) {
+        this.appliquerEffet(joueurActif);
+        this.defausser(joueurActif);
     }
 
     public void cacher() {

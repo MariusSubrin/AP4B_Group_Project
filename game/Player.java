@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import cards.Card;
 
@@ -90,5 +91,83 @@ public class Player {
         this.protectionOff();
         this.resetEspionneJouee();
     }
-    // A chaque début de manche il faudra utiliser newRound pour chaque joueur
+
+    public void choixCarte(){
+        if(this.hand.size() == 2){
+            System.out.println("Voici vos cartes : \n");
+            for (Card c : this.hand) {
+                System.out.println(c.toString()); //on affiche toute ses cartes
+            }
+
+            try (Scanner sc = new Scanner(System.in)) {
+                boolean flag = false;
+                while (!flag){
+                    System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
+                    int choix = sc.nextInt();
+                    for (Card c : this.hand) {
+                        if (choix == c.getIdCard()){
+                            c.jouerCarte(this);
+                            flag = true;
+                        }
+                    }
+                    if (!flag){
+                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                    }
+                }
+            }
+        }
+
+        if(this.hand.size() == 4){
+            System.out.println("Voici vos cartes : \n");
+            for (Card c : this.hand) {
+                System.out.println(c.toString()); //on affiche toute ses cartes
+            }
+
+            try (Scanner sc = new Scanner(System.in)) {
+                boolean flag_1 = false, flag_2 = false, flag_3 = false;
+
+                while (!flag_1){
+                    System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
+                    int choix_1 = sc.nextInt();
+                    for (Card c : this.hand) {
+                        if (choix_1 == c.getIdCard()){
+                            c.jouerCarte(this);
+                            flag_1 = true;
+                        }
+                    }
+                    if (!flag_1){
+                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                    }
+                }
+
+                while (!flag_2){
+                    System.out.println("Quelle 1ière carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
+                    int choix_2 = sc.nextInt();
+                    for (Card c : this.hand) {
+                        if (choix_2 == c.getIdCard()){
+                            c.mettreDansPioche();
+                            flag_2 = true;
+                        }
+                    }
+                    if (!flag_2){
+                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                    }
+                }
+
+                while (!flag_3){
+                    System.out.println("Quelle 2sd carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
+                    int choix_3 = sc.nextInt();
+                    for (Card c : this.hand) {
+                        if (choix_3 == c.getIdCard()){
+                            c.mettreDansPioche();
+                            flag_3 = true;
+                        }
+                    }
+                    if (!flag_3){
+                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                    }
+                }
+            }
+        }
+    }
 }
