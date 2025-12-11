@@ -1,4 +1,6 @@
 package cards;
+import game.CoreGame;
+import game.Player;
 
 import game.CoreGame;
 import game.Player;

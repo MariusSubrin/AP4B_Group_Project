@@ -80,9 +80,12 @@ public abstract class Card {
                '}';
     }
 
+    public Player askTargetPlayer(CoreGame game, Player joueurActif) {
+        return game.demanderCible(joueurActif);
+    }
     // Méthode "virtuelle pure" (méthode abstraite)
     // Elle devra être définie dans chaque sous-classe 
-    public abstract void appliquerEffet(Player joueurActif); 
+    public abstract void appliquerEffet(Player joueurActif, CoreGame game); 
     //Paramètres à changer en fonction des cartes
 }
 

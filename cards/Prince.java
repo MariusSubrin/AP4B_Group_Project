@@ -1,5 +1,4 @@
 package cards;
-
 import game.CoreGame;
 import game.Player;
 

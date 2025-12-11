@@ -1,5 +1,4 @@
 package cards; //Fait parti du package cards
-
 import game.CoreGame;
 import game.Player;
 import java.util.ArrayList;
