@@ -1,35 +1,25 @@
 package cards;
 
-import game.CoreGame;
-import game.Player;
+import game.*;
 
-public class Baron extends Card
-{
+public class Baron extends Card{
     @Override
-    public void appliquerEffet(Player joueurActif)
-    {
-        // L'effet du Baron est de comparer les mains avec un autre joueur.
-        System.out.println("Le Baron a été joué. Comparaison des mains.");
+    public void appliquerEffet(Player joueurActif) {
+        //Le baron compare les cartes des deux joueurs et la plus faible quitte la manche
+        System.out.println("La Baron a été joué");
         Player choix = CoreGame.demanderCible(joueurActif);
-        if (choix.hand.get(0).valueCard > joueurActif.hand.get(0).valueCard)
-        {
-            System.out.println(choix.getNom() + " a une main plus forte. " + joueurActif.getNom() + " est éliminé.");
-            joueurActif.elimination();
-        }
-        else if (choix.hand.get(0).valueCard < joueurActif.hand.get(0).valueCard)
-        {
-            System.out.println(joueurActif.getNom() + " a une main plus forte. " + choix.getNom() + " est éliminé.");
+        if(choix.hand.get(0).getValueCard() < joueurActif.hand.get(0).getValueCard()){
             choix.elimination();
         }
-        else
-        {
-            System.out.println("Les mains sont égales. Aucun joueur n'est éliminé.");
+        else if(choix.hand.get(0).getValueCard() == joueurActif.hand.get(0).getValueCard()){
+            System.out.println("Egalité aucun des joueurs ne quitte la partie");
         }
-
+        else{
+            joueurActif.elimination();
+        }
     }
 
-    public Baron() 
-    {
-        super("Baron", 2);
+    public Baron() {
+        super("Baron", 3);
     }
 }
