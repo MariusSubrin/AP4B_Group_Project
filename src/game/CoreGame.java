@@ -62,7 +62,16 @@ public class CoreGame {
     public void lancerPartie() 
     {
         // Logique pour lancer la partie
-        
+        System.out.println("Début de la partie !");
+        System.out.println("Veuillez choisir le nombre de joueurs (2-4) :");
+        int nbjoueurs = Integer.parseInt(CoreGame.sc.nextLine().trim()); //A voir si ca marche
+        for (int i = 1; i <= nbjoueurs; i++) 
+        {
+            System.out.println("Entrez le nom du joueur " + i + " :");
+            String nomJoueur = CoreGame.sc.nextLine().trim();
+            joueurs.add(new Player(nomJoueur));
+        }
+        lancerManche();
     }
 
     public void lancerManche() 
