@@ -1,5 +1,8 @@
 package game;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import cards.Card;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,7 @@ public class CoreGame {
     public static List<Player> joueurs = new ArrayList<Player>();
     public static Card carteCachee; // Carte cachée
     public static Player gagnant; // Joueur gagnant de la dernière manche
+    public static int faveurs = 13; // Nombre total de faveurs disponibles dans le jeu
 
     public static final Scanner sc = new Scanner(System.in); //Scanner global, il faudra le fermer à la fin du programme TODO
 
@@ -61,6 +65,7 @@ public class CoreGame {
 
     public void lancerPartie() 
     {
+        faveurs = 13; //Réinitialiser le nombre de faveurs
         // Logique pour lancer la partie
         System.out.println("Début de la partie !");
         System.out.println("Veuillez choisir le nombre de joueurs (2-4) :");
@@ -71,18 +76,42 @@ public class CoreGame {
             String nomJoueur = CoreGame.sc.nextLine().trim();
             joueurs.add(new Player(nomJoueur));
         }
-        lancerManche();
+        //Initialiser la pioche écrire chaque cartes une à une ?
+        //Initialiser la carte cachée
+        carteCachee = pioche.get(pioche.size() - 1); //Faire une méthode pour piocher une carte?
+        pioche.remove(pioche.size() - 1);
+        //Distribuer les cartes aux joueurs
+        for (Player joueur : joueurs) 
+        {
+            joueur.hand.add(pioche.get(pioche.size() - 1));
+            pioche.remove(pioche.size() - 1);
+        }
+        gagnant = joueurs.get(0); //A voir comment on détermine le gagnant de la première manche
+        while(faveurs > 0){
+            lancerManche();
+        }
+        System.out.println("La partie est terminée !");
+        System.out.println("Le gagnant de la partie est " + obtenirJoueurMaxFaveurs().getNom() + " !");
     }
 
     public void lancerManche() 
     {
+        deplacerGagnantEnPremier();
         // Logique pour lancer la manche
         for (Player joueur : joueurs) 
         {
             joueur.newRound();
         }
-        lancerTour(gagnant);
-
+        for(Player joueur : joueurs)
+        {
+            //Distribuer une carte à chaque joueur
+            joueur.hand.add(pioche.get(pioche.size() - 1));
+            pioche.remove(pioche.size() - 1);
+        }
+        for (Player joueurActif : joueurs) 
+        {
+            lancerTour(joueurActif); //Lancer le tour du joueur actif
+        }
 
         CoreGame.gagnant = null; //Mettre le joueur ayant gagné pour débuter la prochaine manche (surement avec une vérification))
     }
@@ -91,5 +120,20 @@ public class CoreGame {
     {
         // Logique pour lancer le tour d'un joueur
     }
-}
 
+    public static Player obtenirJoueurMaxFaveurs() 
+    {
+    return joueurs.stream()
+                  .max(Comparator.comparingInt(Player::getNombreFaveur))
+                  .orElse(null);
+    }
+
+    public static void deplacerGagnantEnPremier() 
+    {
+        if (gagnant != null && joueurs.contains(gagnant)) 
+        {
+            joueurs.remove(gagnant);  // Supprime le gagnant de sa position actuelle
+            joueurs.add(0, gagnant);   // L'ajoute à l'indice 0
+        }
+    }   
+}
