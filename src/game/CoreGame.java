@@ -11,6 +11,7 @@ public class CoreGame {
     public static List<Card> carteDefausse = new ArrayList<>(); // Liste des cartes défaussées (Cartes visibles pour tous les joueurs)
     public static List<Player> joueurs = new ArrayList<Player>();
     public static Card carteCachee; // Carte cachée
+    public static Player gagnant; // Joueur gagnant de la dernière manche
 
     public static final Scanner sc = new Scanner(System.in); //Scanner global, il faudra le fermer à la fin du programme TODO
 
@@ -58,8 +59,28 @@ public class CoreGame {
             }
     }
 
-    public void lancerPartie() {
+    public void lancerPartie() 
+    {
+        // Logique pour lancer la partie
         
+    }
+
+    public void lancerManche() 
+    {
+        // Logique pour lancer la manche
+        for (Player joueur : joueurs) 
+        {
+            joueur.newRound();
+        }
+        lancerTour(gagnant);
+
+
+        CoreGame.gagnant = null; //Mettre le joueur ayant gagné pour débuter la prochaine manche (surement avec une vérification))
+    }
+
+    public void lancerTour(Player joueurActif) 
+    {
+        // Logique pour lancer le tour d'un joueur
     }
 }
 
