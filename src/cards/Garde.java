@@ -11,7 +11,7 @@ public class Garde extends Card{
 
         Player cible = CoreGame.demanderCible(joueurActif);
         System.out.println(joueurActif.getNom() + ", quelle carte pensez-vous que " + cible.getNom() + " possède ?");
-        String test = CoreGame.sc.nextLine().trim();
+        String test = CoreGame.sc.nextLine().trim(); //On selectionne par id ???
 
         if (cible.hand.get(0).getNameCard().equalsIgnoreCase(test)) {
             System.out.println("Vous avez deviné correctement ! " + cible.getNom() + " est éliminé.");

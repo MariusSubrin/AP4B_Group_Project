@@ -10,6 +10,7 @@ public class Servante extends Card{
         joueurActif.protectionOn();
 
         //La protection repasse en Off à chaque début du tour d'un joueur
+        //Peut etre gérer le cas particulier de la servante car ceci changerait beaucoup de choses.
     }
 
     public Servante() {

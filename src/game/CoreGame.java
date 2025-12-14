@@ -10,6 +10,7 @@ public class CoreGame {
     public static List<Card> pioche = new ArrayList<>(); // Pioche principale
     public static List<Card> carteDefausse = new ArrayList<>(); // Liste des cartes défaussées (Cartes visibles pour tous les joueurs)
     public static List<Player> joueurs = new ArrayList<Player>();
+    public static Card carteCachee; // Carte cachée
 
     public static final Scanner sc = new Scanner(System.in); //Scanner global, il faudra le fermer à la fin du programme TODO
 

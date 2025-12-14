@@ -117,7 +117,7 @@ public class Player {
             }
         }
 
-        if(this.hand.size() == 4){
+        if(this.hand.size() == 3){
             System.out.println("Voici vos cartes : \n");
             for (Card c : this.hand) {
                 System.out.println(c.toString()); //on affiche toute ses cartes
