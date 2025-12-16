@@ -172,10 +172,12 @@ public class CoreGame {
         System.out.println("Le gagnant de la partie est " + joueurMaxFaveurs().getNom() + " !");
     }
 
-    //Lancement d'une manche, à la fin il y a un gagnant qui gagne une ou deux faveurs
+    //Lancement d'une manche, à la fin il y a un gagnant que gagne une ou deux faveurs
     public static void lancerManche()
     {
         deplacerGagnantEnPremier();
+
+        //
 
         //Random la pioche TODO
         randomPioche();
@@ -196,7 +198,7 @@ public class CoreGame {
         }
 
         int i = 0;
-        while (!pioche.isEmpty() || joueurs.size() > 1){
+        while (!pioche.isEmpty() || joueurs.size() > 1){ //Revoir condition TODO
             if(!joueurs.get(i).isElimine()){
                 lancerTour(joueurs.get(i));
                 i ++;
