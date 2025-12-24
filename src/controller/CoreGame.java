@@ -23,54 +23,66 @@ public class CoreGame {
         }
     }
 
-    public static final Scanner sc = new Scanner(System.in); //Scanner global, il faudra le fermer à la fin du programme TODO
+    public static final Scanner sc = new Scanner(System.in); //Scanner global, se ferme à la fin du programme
 
-    public static Player demanderCible(Player joueurActif) {
+    public static Player demanderCible(Player joueurActif, Card carteActive) {
 
         System.out.println("Joueurs disponibles :");
         for (Player p : joueurs) {
             System.out.println(p.getId() + " - " + p.getNom());
-        }//On affiche la liste de joueurs
+        }
 
-        while(true)
-            {
-                System.out.println("\n" + joueurActif.getNom() + ", qui vises tu ? :");
-                System.out.print("> ");
+        while (true) {
+            System.out.println("\n" + joueurActif.getNom() + ", qui vises-tu ? (donner l'id) :");
+            System.out.print("> ");
 
-                String choix = sc.nextLine().trim();
-                // Cherche un joueur avec ce nom
+            int choix;
+            try {
+                choix = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Veuillez entrer un nombre valide.");
+                continue;
+            }
 
-                boolean flag = false;
-                for (Player p : joueurs)
-                {
-                    if(p.getNom().equalsIgnoreCase(choix) || choix.equals(String.valueOf(p.getId()))) 
-                    {
-                        //On rentre dans la boucle que si c'est le bon joueur
+            Player cible = null;
 
-                        if ((joueurActif.getNom().equals(choix) || joueurActif.getId() == p.getId()) && !joueurActif.hand.get(0).getNameCard().equals("Prince")) {
-                            System.out.println("Vous ne pouvez pas vous viser vous-même.");
-                            break;
-                        }
-
-                        if (p.isElimine()) {
-                            System.out.println("Ce joueur est éliminé.");
-                            break;
-                        }
-
-                        if (p.hasProtection()) {
-                            System.out.println("Ce joueur est protégé.");
-                            break;
-                        }
-
-                        flag = true;
-                        return p; //joueur valide
-                    }
-                }
-                if(flag == false){ //Si aucun des joueurs de correspond au nom donné ou à l'id
-                        System.out.println("Aucun joueur valide ne correspond à ce choix.");
+            // Recherche du joueur
+            for (Player p : joueurs) {
+                if (choix == p.getId()) {
+                    cible = p;
+                    break;
                 }
             }
+
+            // Aucun joueur trouvé
+            if (cible == null) {
+                System.out.println("Aucun joueur ne correspond à cet id.");
+                continue;
+            }
+
+            // Auto-ciblage interdit (sauf Prince)
+            if (cible == joueurActif &&
+                    !carteActive.getNameCard().equals("Prince")) {
+
+                System.out.println("Vous ne pouvez pas vous viser vous-même.");
+                continue;
+            }
+
+            if (cible.isElimine()) {
+                System.out.println("Ce joueur est éliminé.");
+                continue;
+            }
+
+            if (cible.hasProtection()) {
+                System.out.println("Ce joueur est protégé.");
+                continue;
+            }
+
+            // Cible valide
+            return cible;
+        }
     }
+
 
     public static void initPioche(){
         //Initialisation de la pioche
@@ -130,20 +142,24 @@ public class CoreGame {
         //Initialisation de la pioche
         initPioche();
 
+        int i = 0;
+
         while(joueurMaxFaveurs().getNombreFaveur() < winFaveurs){
+            System.out.println("Début de la manche " + i);
             lancerManche();
+            i ++;
         }
 
         System.out.println("La partie est terminée !");
         System.out.println("Le gagnant de la partie est " + joueurMaxFaveurs().getNom() + " !");
+        //Fermeture du scanner global automatiquement
+
     }
 
     //Lancement d'une manche, à la fin il y a un gagnant que gagne une ou deux faveurs
     public static void lancerManche()
     {
         deplacerGagnantEnPremier();
-
-        //
 
         //Random la pioche
         randomPioche();
@@ -165,10 +181,10 @@ public class CoreGame {
 
         int i = 0;
         while (!pioche.isEmpty() || howManyAlive() > 1){
-            if (i == 5){
+            if (i == joueurs.toArray().length + 1){
                 i = 1;
             }
-            if(!joueurs.get(i).isElimine()){
+            if(!joueurs.get(i).isElimine()){ //S'il n'est pas éliminé on lance son tour sinon on le saute pour lancer celui du suivant
                 lancerTour(joueurs.get(i));
                 i ++;
             }else{ i ++; }

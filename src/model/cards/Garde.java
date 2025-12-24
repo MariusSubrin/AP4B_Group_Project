@@ -9,11 +9,12 @@ public class Garde extends Card{
         // L'effet de la Garde est de tenter de deviner la carte d'un autre joueur.
         System.out.println("La Garde a été jouée. Vous allez tenter de deviner la carte d'un autre joueur afin de l'éliminer");
 
-        Player cible = CoreGame.demanderCible(joueurActif);
+        Player cible = CoreGame.demanderCible(joueurActif, this);
         System.out.println(joueurActif.getNom() + ", quelle carte pensez-vous que " + cible.getNom() + " possède ?");
-        String test = CoreGame.sc.nextLine().trim(); //On selectionne par id ???
+        String test = CoreGame.sc.nextLine().trim();
+        //Faut vérifier que ce type de carte existe, sinon bug #TODO
 
-        if (cible.hand.get(0).getNameCard().equalsIgnoreCase(test)) {
+        if (cible.hand.getFirst().getNameCard().equalsIgnoreCase(test)) {
             System.out.println("Vous avez deviné correctement ! " + cible.getNom() + " est éliminé.");
             cible.elimination();
         } else {

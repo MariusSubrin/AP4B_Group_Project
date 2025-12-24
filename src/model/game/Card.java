@@ -57,16 +57,6 @@ public abstract class Card {
         }
 
     public void defausser(Player player) {
-        /*if(this.nameCard.equals("Espionne"))
-            {
-                System.out.println(player.getNom() + " a défaussé l'Espionne.");
-                player.espionneJouee(); // Active l'effet de l'espionne lorsqu'elle est défaussée
-            }
-        if(this.nameCard.equals("Princesse"))
-            {
-                System.out.println(player.getNom() + " a défaussé la Princesse et est donc éliminé.");
-                player.elimination(); // Le joueur est éliminé s'il défausse la Princesse
-            }*/ //Répétition non ?
         this.stateCard = State.DEFAUSSEE;
         CoreGame.carteDefausse.add(this);
         player.hand.remove(this);
@@ -74,8 +64,8 @@ public abstract class Card {
 
     public void jouerCarte(Player joueurActif) {
         System.out.println(joueurActif.getNom() + " joue la carte " + this.nameCard + ".");
-        this.appliquerEffet(joueurActif);
         this.defausser(joueurActif);
+        this.appliquerEffet(joueurActif);
     }
 
     public void cacher() {

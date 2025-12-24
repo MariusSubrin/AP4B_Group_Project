@@ -63,6 +63,7 @@ public class Player {
 
     public void elimination() {
         this.elimine = true;
+        this.hand.getFirst().defausser(this);
     }
 
     public void resurrection() {
@@ -105,28 +106,28 @@ public class Player {
     public void choixCarte(){
         System.out.println("----------------------------------------------------------------------"); //Pour séparer visuellement avec le joueur précédent
         System.out.println("C'est le tour de " + this.getNom() + " !");
+
         if(this.hand.size() == 2){
             System.out.println("Voici vos cartes : \n");
             for (Card c : this.hand) {
                 System.out.println(c.toString()); //on affiche toutes ses cartes
             }
 
-            try (Scanner sc = new Scanner(System.in)) {
-                boolean flag = false;
-                while (!flag){
-                    System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
-                    int choix = sc.nextInt();
-                    for (Card c : this.hand) {
-                        if (choix == c.getIdCard()){
-                            c.jouerCarte(this);
-                            flag = true;
-                        }
-                    }
-                    if (!flag){
-                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+            boolean flag = false;
+            while (!flag){
+                System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
+                int choix = Integer.parseInt(CoreGame.sc.nextLine().trim()); //Appel du scanner général
+                for (Card c : this.hand) {
+                    if (choix == c.getIdCard()){
+                        c.jouerCarte(this);
+                        flag = true;
                     }
                 }
+                if (!flag){
+                    System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                }
             }
+
         }
 
         if(this.hand.size() == 3){

@@ -12,11 +12,12 @@ public class Roi extends Card{
         // L'effet du Roi est d'échanger sa main avec un autre joueur.
         System.out.println("Le Roi a été joué. Échange de deux mains.");
 
-        Player choix = CoreGame.demanderCible(joueurActif);
+        Player choix = CoreGame.demanderCible(joueurActif, this);
         List<Card> copie = new ArrayList<>(joueurActif.hand);
         joueurActif.hand = choix.hand;
         choix.hand = copie;
         //inversion des deux listes de mains
+        System.out.println(joueurActif.getNom() + " et " + choix.getNom() + " ont échangé de main");
     }
 
     public Roi() {

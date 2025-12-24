@@ -1,5 +1,4 @@
 import controller.CoreGame;
-import view.LoveLetterView;
 
 public class Main {
     //Doit appeler les bons fichiers au début
@@ -7,7 +6,6 @@ public class Main {
     // A chaque début de manche il faudra utiliser newRound pour chaque joueur
 
     public static void main(String[] args) {
-        // TODO: Initialize the game
         CoreGame.lancerPartie();
         //new LoveLetterView();
     }

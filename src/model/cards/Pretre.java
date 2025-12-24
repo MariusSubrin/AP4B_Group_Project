@@ -9,7 +9,7 @@ public class Pretre extends Card{
         // L'effet du Prêtre est de regarder la main d'un autre joueur.
         System.out.println("Le Prêtre a été joué.");
 
-        Player cible = CoreGame.demanderCible(joueurActif);
+        Player cible = CoreGame.demanderCible(joueurActif, this);
         System.out.println(joueurActif.getNom() + " regarde la main de " + cible.getNom() + " : " + cible.hand.get(0).getNameCard());
     }
 
