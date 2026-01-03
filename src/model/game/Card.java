@@ -64,8 +64,8 @@ public abstract class Card {
 
     public void jouerCarte(Player joueurActif) {
         System.out.println(joueurActif.getNom() + " joue la carte " + this.nameCard + ".");
-        this.defausser(joueurActif);
         this.appliquerEffet(joueurActif);
+        this.defausser(joueurActif);
     }
 
     public void cacher() {
@@ -74,10 +74,23 @@ public abstract class Card {
 
     @Override //Pour afficher la carte au joueur (les vérifications se feront dans la méthode affiche de la classe Player)
     public String toString() {
-        return "{id=" + idCard +
-               ", name='" + nameCard + '\'' +
-               ", state=" + stateCard +
-               '}';
+        String symbole = "";
+        switch (nameCard) {
+            case "Princesse": symbole = "👑"; break;
+            case "Comtesse": symbole = "👸"; break;
+            case "Roi": symbole = "🤴"; break;
+            case "Chancelier": symbole = "💼"; break;
+            case "Prince": symbole = "👨‍💼"; break;
+            case "Servante": symbole = "👰"; break;
+            case "Baron": symbole = "🎩"; break;
+            case "Pretre": symbole = "🙏"; break;
+            case "Garde": symbole = "🛡️"; break;
+            case "Espionne": symbole = "🕵️"; break;
+            default: symbole = "🃏";
+        }
+
+        return String.format("│ %-12s %-2s │ (valeur: %d, id: %d)",
+                nameCard, symbole, valueCard, idCard);
     }
 
     // Méthode "virtuelle pure" (méthode abstraite)

@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="aca24364-46e8-4f02-aa75-2544f692e38e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/CoreGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CoreGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/cards/Baron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Baron.java" afterDir="false" />
@@ -69,6 +66,17 @@
       <updated>1765710290888</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

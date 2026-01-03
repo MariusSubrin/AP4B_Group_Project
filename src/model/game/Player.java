@@ -91,7 +91,7 @@ public class Player {
     }
 
     public void piocher(){
-        Card p = CoreGame.pioche.get(CoreGame.pioche.size() - 1);
+        Card p = CoreGame.pioche.getLast();
         p.mettreDansMain(this);
         CoreGame.pioche.remove(CoreGame.pioche.size() - 1);
     }
@@ -103,82 +103,98 @@ public class Player {
         this.gagnant = false;
     }
 
-    public void choixCarte(){
-        System.out.println("----------------------------------------------------------------------"); //Pour séparer visuellement avec le joueur précédent
+    public void choixCarte() {
+        System.out.println("----------------------------------------------------------------------");
         System.out.println("C'est le tour de " + this.getNom() + " !");
 
-        if(this.hand.size() == 2){
+        if (this.hand.size() == 2) {
             System.out.println("Voici vos cartes : \n");
             for (Card c : this.hand) {
-                System.out.println(c.toString()); //on affiche toutes ses cartes
+                System.out.println(c.toString());
             }
 
             boolean flag = false;
-            while (!flag){
+            while (!flag) {
                 System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
-                int choix = Integer.parseInt(CoreGame.sc.nextLine().trim()); //Appel du scanner général
-                for (Card c : this.hand) {
-                    if (choix == c.getIdCard()){
-                        c.jouerCarte(this);
-                        flag = true;
+                try {
+                    int choix = Integer.parseInt(CoreGame.sc.nextLine().trim());
+
+                    // Recherche de la carte sans modifier la liste
+                    Card carteAJouer = null;
+                    for (Card c : this.hand) {
+                        if (choix == c.getIdCard()) {
+                            carteAJouer = c;
+                            flag = true;
+                            break;
+                        }
                     }
-                }
-                if (!flag){
-                    System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+
+                    if (carteAJouer != null) {
+                        carteAJouer.jouerCarte(this);
+                    } else {
+                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Veuillez entrer un nombre valide. \n");
                 }
             }
-
         }
 
-        if(this.hand.size() == 3){
+        if (this.hand.size() == 3) {
             System.out.println("Voici vos cartes : \n");
             for (Card c : this.hand) {
-                System.out.println(c.toString()); //on affiche toute ses cartes
+                System.out.println(c.toString());
             }
 
-            try (Scanner sc = new Scanner(System.in)) { //Soucis car on ferme le scanner ensuite, il faut en créer un global static dans coregame
-                boolean flag_1 = false, flag_2 = false, flag_3 = false;
+            // Première carte à remettre
+            boolean premiereCarteTrouvee = false;
+            while (!premiereCarteTrouvee) {
+                System.out.println("Quelle 1ère carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
+                try {
+                    int choix1 = Integer.parseInt(CoreGame.sc.nextLine().trim());
 
-                while (!flag_1){
-                    System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
-                    int choix_1 = sc.nextInt();
+                    Card premiereCarte = null;
                     for (Card c : this.hand) {
-                        if (choix_1 == c.getIdCard()){
-                            c.jouerCarte(this);
-                            flag_1 = true;
+                        if (choix1 == c.getIdCard()) {
+                            premiereCarte = c;
+                            break;
                         }
                     }
-                    if (!flag_1){
+
+                    if (premiereCarte != null) {
+                        premiereCarte.mettreDansPioche();
+                        premiereCarteTrouvee = true;
+                    } else {
                         System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Veuillez entrer un nombre valide. \n");
                 }
+            }
 
-                while (!flag_2){
-                    System.out.println("Quelle 1ière carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
-                    int choix_2 = sc.nextInt();
+            // Deuxième carte à remettre
+            boolean deuxiemeCarteTrouvee = false;
+            while (!deuxiemeCarteTrouvee) {
+                System.out.println("Quelle 2ème carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
+                try {
+                    int choix2 = Integer.parseInt(CoreGame.sc.nextLine().trim());
+
+                    Card deuxiemeCarte = null;
                     for (Card c : this.hand) {
-                        if (choix_2 == c.getIdCard()){
-                            c.mettreDansPioche();
-                            flag_2 = true;
+                        if (choix2 == c.getIdCard()) {
+                            deuxiemeCarte = c;
+                            break;
                         }
                     }
-                    if (!flag_2){
-                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
-                    }
-                }
 
-                while (!flag_3){
-                    System.out.println("Quelle 2sd carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
-                    int choix_3 = sc.nextInt();
-                    for (Card c : this.hand) {
-                        if (choix_3 == c.getIdCard()){
-                            c.mettreDansPioche();
-                            flag_3 = true;
-                        }
-                    }
-                    if (!flag_3){
+                    if (deuxiemeCarte != null) {
+                        deuxiemeCarte.mettreDansPioche();
+                        deuxiemeCarteTrouvee = true;
+                    } else {
                         System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Veuillez entrer un nombre valide. \n");
                 }
             }
         }

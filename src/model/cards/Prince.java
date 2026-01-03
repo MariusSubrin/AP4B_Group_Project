@@ -6,27 +6,28 @@ import controller.CoreGame;
 public class Prince extends Card {
 
     @Override
-    public void appliquerEffet(Player joueurActif) 
-    {
-        // L'effet du Prince est de faire défausser une carte à un joueur ciblé.
+    public void appliquerEffet(Player joueurActif) {
         System.out.println("Le Prince a été joué. Un joueur ciblé défausse sa main.");
 
         Player choix = CoreGame.demanderCible(joueurActif, this);
-        choix.hand.getFirst().defausser(joueurActif); //Car le joueur n'a qu'une seule carte de toute façon
-        if(!CoreGame.pioche.isEmpty())
-        {
+
+        // Gérer le cas où aucune cible n'est disponible
+        if (choix == null) {
+            System.out.println("Aucune cible disponible pour le Prince. L'effet est annulé.");
+            return;
+        }
+
+        System.out.println(choix.getNom() + " a défaussé : " + choix.hand.getFirst().toString());
+        choix.hand.getFirst().defausser(choix); // Le joueur ciblé défausse sa carte
+        if(!CoreGame.pioche.isEmpty()) {
             choix.hand.add(CoreGame.pioche.getLast());
             CoreGame.pioche.removeLast();
-        }
-        else
-        {
+        } else {
             System.out.println("La pioche est vide.");
         }
     }
 
-    public Prince() 
-    {
+    public Prince() {
         super("Prince", 5);
     }
-
 }
