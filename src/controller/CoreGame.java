@@ -167,6 +167,9 @@ public class CoreGame {
 
         while(joueurMaxFaveurs().getNombreFaveur() < winFaveurs){
             System.out.println("Début de la manche " + i);
+            if(i > 1){
+                remiseDansPioche();
+            }
             lancerManche();
             i ++;
         }
@@ -175,6 +178,35 @@ public class CoreGame {
         System.out.println("Le gagnant de la partie est " + joueurMaxFaveurs().getNom() + " !");
         //Fermeture du scanner global automatiquement
 
+    }
+
+    public static void remiseDansPioche() {
+        // 1. Remettre les cartes des mains des joueurs dans la pioche
+        for(Player p : joueurs) {
+            // Vérifier si le joueur a des cartes en main
+            if (!p.hand.isEmpty()) {
+                // on utilise une copie de la liste pour éviter ConcurrentModificationException
+                List<Card> cartesEnMain = new ArrayList<>(p.hand);
+                for (Card c : cartesEnMain) {
+                    c.mettreDansPioche();
+                }
+                p.hand.clear();
+            }
+        }
+
+        // 2. Remettre les cartes défaussées dans la pioche
+        // On utilise une copie pour éviter ConcurrentModificationException
+        List<Card> cartesDefaussees = new ArrayList<>(carteDefausse);
+        for(Card c : cartesDefaussees) {
+            c.mettreDansPioche();
+        }
+        carteDefausse.clear();
+
+        // 3. Remettre la carte cachée dans la pioche
+        carteCachee.mettreDansPioche();
+        carteCachee = null;
+
+        System.out.println("Toutes les cartes ont été remises dans la pioche !");
     }
 
     //Lancement d'une manche, à la fin il y a un gagnant qui gagne une ou deux faveurs
@@ -235,6 +267,7 @@ public class CoreGame {
                 }
             }
             attributionPoints(winners);
+            return winners.get(0); //Pour ne surtout pas aller plus loin
         }
 
         if (pioche.isEmpty()) {

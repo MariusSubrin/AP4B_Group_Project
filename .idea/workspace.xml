@@ -3,16 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="aca24364-46e8-4f02-aa75-2544f692e38e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Prince.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Prince.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Card.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Card.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/CoreGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CoreGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/cards/Baron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Baron.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/cards/Chancelier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Chancelier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/cards/Garde.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Garde.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/cards/Pretre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Pretre.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/cards/Prince.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Prince.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/cards/Roi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/cards/Roi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/game/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/game/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/game/Player.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
