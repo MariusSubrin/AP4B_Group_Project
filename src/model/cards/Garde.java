@@ -13,11 +13,11 @@ public class Garde extends Card {
 
     @Override
     public void appliquerEffet(Player joueurActif) {
-        System.out.println("La Garde a été jouée. Vous allez tenter de deviner la carte d'un autre joueur afin de l'éliminer");
+        CoreGame.view.afficherMessage("La Garde a été jouée. Vous allez tenter de deviner la carte d'un autre joueur afin de l'éliminer");
 
         Player cible = CoreGame.demanderCible(joueurActif, this);
         if (cible == null) {
-            System.out.println("Aucune cible disponible pour la Garde. L'effet est annulé.");
+            CoreGame.view.afficherMessage("Aucune cible disponible pour la Garde. L'effet est annulé.");
             return;
         }
 
@@ -25,11 +25,12 @@ public class Garde extends Card {
         String supposition = "";
 
         while (!devineValide) {
-            System.out.println(joueurActif.getNom() + ", quelle carte pensez-vous que " + cible.getNom() + " possède ?");
-            System.out.println("Cartes possibles : " + String.join(", ", NOMS_CARTES_VALIDES));
-            System.out.print("> ");
+            supposition = CoreGame.view.lireInput(joueurActif.getNom() + ", quelle carte pensez-vous que " + cible.getNom() + " possède ?\nCartes possibles : " + String.join(", ", NOMS_CARTES_VALIDES));
 
-            supposition = CoreGame.sc.nextLine().trim();
+            if (supposition == null) {
+                CoreGame.view.afficherMessage("Entrée invalide.");
+                continue;
+            }
 
             // Vérifier que c'est un nom de carte valide
             boolean carteValide = false;
@@ -42,17 +43,17 @@ public class Garde extends Card {
             }
 
             if (!carteValide) {
-                System.out.println("Nom de carte invalide. Essayez encore.");
+                CoreGame.view.afficherMessage("Nom de carte invalide. Essayez encore.");
             } else {
                 devineValide = true;
             }
         }
 
         if (!cible.hand.isEmpty() && cible.hand.get(0).getNameCard().equalsIgnoreCase(supposition)) {
-            System.out.println("Vous avez deviné correctement ! " + cible.getNom() + " est éliminé.");
+            CoreGame.view.afficherMessage("Vous avez deviné correctement ! " + cible.getNom() + " est éliminé.");
             cible.elimination();
         } else {
-            System.out.println("Vous n'avez pas deviné correctement.");
+            CoreGame.view.afficherMessage("Vous n'avez pas deviné correctement.");
         }
     }
 
