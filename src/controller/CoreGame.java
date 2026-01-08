@@ -4,6 +4,7 @@ import java.util.*;
 
 import model.cards.*;
 import model.game.*;
+import view.LoveLetterView;
 
 public class CoreGame {
 
@@ -11,20 +12,18 @@ public class CoreGame {
     public static List<Card> carteDefausse = new ArrayList<>(); // Liste des cartes défaussées (Cartes visibles pour tous les joueurs)
     public static List<Player> joueurs = new ArrayList<Player>();
     public static Card carteCachee; // Carte cachée
+    public static LoveLetterView view; // Vue GUI
     // public static int faveurs = 13; // Nombre total de faveurs disponibles dans le jeu, utile ?
 
     public static void afficherPioche(){
-        System.out.println("Test");
         for (Card c : pioche){
-            System.out.println(c.toString());
+            view.afficherMessage(c.toString());
         }
     }
 
-    public static final Scanner sc = new Scanner(System.in); //Scanner global, se ferme à la fin du programme
-
     public static Player demanderCible(Player joueurActif, Card carteActive) {
 
-        System.out.println("Joueurs disponibles :");
+        view.afficherMessage("Joueurs disponibles :");
 
         // Vérifier s'il y a au moins une cible valide
         boolean auMoinsUneCibleValide = false;
@@ -41,28 +40,32 @@ public class CoreGame {
 
         // Si aucune cible valide et que ce n'est pas le Prince
         if (!auMoinsUneCibleValide) {
-            System.out.println("Aucune cible disponible (tous les joueurs sont protégés ou éliminés).");
+            view.afficherMessage("Aucune cible disponible (tous les joueurs sont protégés ou éliminés).");
             return null;
         }
 
         // Afficher les joueurs disponibles
         for (Player p : joueurs) {
             if (!p.isElimine()) {
-                System.out.println(p.getId() + " - " + p.getNom() +
+                view.afficherMessage(p.getId() + " - " + p.getNom() +
                         (p.hasProtection() ? " (protégé)" : "") +
                         (p == joueurActif && carteActive.getNameCard().equals("Prince") ? " (vous-même - autorisé pour le Prince)" : ""));
             }
         }
 
         while (true) {
-            System.out.println("\n" + joueurActif.getNom() + ", qui vises-tu ? (donner l'id) :");
-            System.out.print("> ");
+            String input = view.lireInput(joueurActif.getNom() + ", qui vises-tu ? (donner l'id) :");
+
+            if (input == null) {
+                view.afficherMessage("Entrée invalide.");
+                continue;
+            }
 
             int choix;
             try {
-                choix = Integer.parseInt(sc.nextLine());
+                choix = Integer.parseInt(input.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Veuillez entrer un nombre valide.");
+                view.afficherMessage("Veuillez entrer un nombre valide.");
                 continue;
             }
 
@@ -78,24 +81,24 @@ public class CoreGame {
 
             // Aucun joueur trouvé
             if (cible == null) {
-                System.out.println("Aucun joueur ne correspond à cet id.");
+                view.afficherMessage("Aucun joueur ne correspond à cet id.");
                 continue;
             }
 
             // Auto-ciblage interdit (sauf Prince)
             if (cible == joueurActif &&
                     !carteActive.getNameCard().equals("Prince")) {
-                System.out.println("Vous ne pouvez pas vous viser vous-même.");
+                view.afficherMessage("Vous ne pouvez pas vous viser vous-même.");
                 continue;
             }
 
             if (cible.isElimine()) {
-                System.out.println("Ce joueur est éliminé.");
+                view.afficherMessage("Ce joueur est éliminé.");
                 continue;
             }
 
             if (cible.hasProtection()) {
-                System.out.println("Ce joueur est protégé.");
+                view.afficherMessage("Ce joueur est protégé.");
                 continue;
             }
 
@@ -130,6 +133,20 @@ public class CoreGame {
         new Espionne();
     }
 
+    public static void resetPioche(){
+        pioche.clear();
+        initPioche();
+        randomPioche();
+    }
+
+    public static void resetHands(){
+        for (Player p : joueurs) {
+            while (!p.hand.isEmpty()) {
+                p.hand.get(0).defausser(p);
+            }
+        }
+    }
+
     private static void randomPioche(){
         Collections.shuffle(pioche);
     }
@@ -137,19 +154,32 @@ public class CoreGame {
     //Lancement du jeu global, à la fin c'est la fin du jeu et il y a un grand gagnant
     public static void lancerPartie(){
         // Logique pour lancer la partie
-        System.out.println("Début de la partie !");
+        view.afficherMessage("Début de la partie !");
 
-        int nbjoueurs;
+        int nbjoueurs = 0;
         do {
-            System.out.println("Veuillez choisir le nombre de joueurs (2-6) : ");
-            nbjoueurs = Integer.parseInt(CoreGame.sc.nextLine().trim()); //A voir si ca marche
+            String inputNb = view.lireInput("Veuillez choisir le nombre de joueurs (2-6) : ");
+            if (inputNb == null) {
+                view.afficherMessage("Entrée invalide.");
+                continue;
+            }
+            try {
+                nbjoueurs = Integer.parseInt(inputNb.trim());
+            } catch (NumberFormatException e) {
+                view.afficherMessage("Veuillez entrer un nombre valide.");
+                continue;
+            }
         }while(nbjoueurs < 2 || nbjoueurs > 6);
 
         for (int i = 1; i <= nbjoueurs; i++)
         {
-            System.out.println("Entrez le nom du joueur " + i + " : ");
-            String nomJoueur = CoreGame.sc.nextLine().trim();
-            joueurs.add(new Player(nomJoueur));
+            String nomJoueur = view.lireInput("Entrez le nom du joueur " + i + " : ");
+            if (nomJoueur == null) {
+                view.afficherMessage("Entrée invalide.");
+                i--; // retry
+                continue;
+            }
+            joueurs.add(new Player(nomJoueur.trim()));
         }
 
         int winFaveurs = switch (nbjoueurs) {
@@ -166,68 +196,46 @@ public class CoreGame {
         int i = 1;
 
         while(joueurMaxFaveurs().getNombreFaveur() < winFaveurs){
-            System.out.println("Début de la manche " + i);
-            if(i > 1){
-                remiseDansPioche();
-            }
+            view.afficherMessage("Début de la manche " + i);
             lancerManche();
             i ++;
         }
 
-        System.out.println("La partie est terminée !");
-        System.out.println("Le gagnant de la partie est " + joueurMaxFaveurs().getNom() + " !");
+        view.afficherMessage("La partie est terminée !");
+        view.afficherMessage("Le gagnant de la partie est " + joueurMaxFaveurs().getNom() + " !");
         //Fermeture du scanner global automatiquement
 
-    }
-
-    public static void remiseDansPioche() {
-        // 1. Remettre les cartes des mains des joueurs dans la pioche
-        for(Player p : joueurs) {
-            // Vérifier si le joueur a des cartes en main
-            if (!p.hand.isEmpty()) {
-                // on utilise une copie de la liste pour éviter ConcurrentModificationException
-                List<Card> cartesEnMain = new ArrayList<>(p.hand);
-                for (Card c : cartesEnMain) {
-                    c.mettreDansPioche();
-                }
-                p.hand.clear();
-            }
-        }
-
-        // 2. Remettre les cartes défaussées dans la pioche
-        // On utilise une copie pour éviter ConcurrentModificationException
-        List<Card> cartesDefaussees = new ArrayList<>(carteDefausse);
-        for(Card c : cartesDefaussees) {
-            c.mettreDansPioche();
-        }
-        carteDefausse.clear();
-
-        // 3. Remettre la carte cachée dans la pioche
-        carteCachee.mettreDansPioche();
-        carteCachee = null;
-
-        System.out.println("Toutes les cartes ont été remises dans la pioche !");
     }
 
     //Lancement d'une manche, à la fin il y a un gagnant qui gagne une ou deux faveurs
     public static void lancerManche()
     {
         // Afficher les faveurs actuelles au début de la manche
-        System.out.println("\n═══════════════════════════════════════");
-        System.out.println("     DÉBUT D'UNE NOUVELLE MANCHE");
-        System.out.println("═══════════════════════════════════════");
-        System.out.println("Faveurs actuelles :");
+        view.afficherMessage("\n═══════════════════════════════════════");
+        view.afficherMessage("     DÉBUT D'UNE NOUVELLE MANCHE");
+        view.afficherMessage("═══════════════════════════════════════");
+        view.afficherMessage("Faveurs actuelles :");
         for (Player joueur : joueurs) {
-            System.out.println("  " + joueur.getNom() + " : " + joueur.getNombreFaveur() + " faveur(s)");
+            view.afficherMessage("  " + joueur.getNom() + " : " + joueur.getNombreFaveur() + " faveur(s)");
         }
-        System.out.println("═══════════════════════════════════════\n");
+        view.afficherMessage("═══════════════════════════════════════\n");
 
         deplacerGagnantEnPremier();
 
         //Random la pioche
-        randomPioche();
-
+        resetPioche();
+        try
+        {
+            resetHands();
+        }
+        catch (Exception e)
+        {
+            view.afficherMessage("Erreur lors de la réinitialisation des mains des joueurs : " + e.getMessage());
+        }
         //Initialiser la carte cachée
+        if (pioche.isEmpty()) {
+            throw new IllegalStateException("Pioche vide au début de la manche.");
+        }
         carteCachee = pioche.get(pioche.size() - 1);
         pioche.remove(pioche.size() - 1);
 
@@ -243,7 +251,7 @@ public class CoreGame {
         }
 
         int i = 0;
-        while (!pioche.isEmpty() && howManyAlive() > 1){
+        while (!(pioche.isEmpty()) && (howManyAlive() > 1)){
             Player joueurActuel = joueurs.get(i % joueurs.size());
             if(!joueurActuel.isElimine()){
                 lancerTour(joueurActuel);
@@ -258,19 +266,23 @@ public class CoreGame {
 
     public static Player getWinner() {
         //On crée une liste de gagnant
+        view.afficherMessage("La manche est terminée. Détermination du gagnant...");
         List<Player> winners = new ArrayList<>();
 
-        if (howManyAlive() == 1) {
+        if (howManyAlive() == 1) 
+        {
+            view.afficherMessage("Un seul joueur reste en lice.");
             for (Player p : joueurs) {
-                if (!p.isElimine()) {
+                if (!(p.isElimine())) {
                     winners.add(p);
                 }
             }
             attributionPoints(winners);
-            return winners.get(0); //Pour ne surtout pas aller plus loin
         }
 
-        if (pioche.isEmpty()) {
+        if (pioche.isEmpty()) 
+        {
+            view.afficherMessage("La pioche est vide. Comparaison des cartes restantes...");
             int highestValue = -1;
 
             // Trouver la valeur la plus haute parmi les joueurs encore en jeu
@@ -284,7 +296,9 @@ public class CoreGame {
             }
 
             // Vérifier s'il y a égalité
-            for (Player p : joueurs) {
+            for (Player p : joueurs) 
+            {
+                view.afficherMessage("On verifie l'égalité pour ");
                 if (!p.isElimine() && !p.hand.isEmpty() && p.hand.get(0).getValueCard() == highestValue) {
                     winners.add(p);
                 }
@@ -292,16 +306,18 @@ public class CoreGame {
 
             attributionPoints(winners);
 
-            if (winners.size() == 1) {
-                return winners.get(0);
+            if (winners.isEmpty()) {
+                view.afficherMessage("Aucun gagnant n'a été déterminé.");
+                throw new IllegalStateException("Aucun gagnant trouvé.");
+            } else if (winners.size() == 1) 
+            {
+                view.afficherMessage("Le gagnant de la manche est " + winners.get(0).getNom() + " !");
             } else {
                 // En cas d'égalité, tout les joueurs gagnants ont un point
-                System.out.println("Égalité ! Tout les joueurs à égalité gagnent, le premier d'entre eux commencera la prochaine manche");
-                return winners.get(0);
+                view.afficherMessage("Égalité ! Tout les joueurs à égalité gagnent, le premier d'entre eux commencera la prochaine manche");
             }
         }
-
-        throw new IllegalStateException("Aucun gagnant trouvé alors que la manche devrait être terminée.");
+        return winners.get(0);
     }
 
     public static void attributionPoints (List<Player> winners){
@@ -324,6 +340,9 @@ public class CoreGame {
     }
 
     public static Player joueurMaxFaveurs(){
+        if (joueurs.isEmpty()) {
+            throw new IllegalStateException("Aucun joueur dans la liste.");
+        }
         Player max = joueurs.get(0);
 
         for (Player p : joueurs) {

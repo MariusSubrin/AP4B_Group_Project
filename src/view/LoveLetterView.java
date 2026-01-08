@@ -1,12 +1,15 @@
 package view;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class LoveLetterView extends JFrame {
 
     private JTextArea zoneTexte;
     private JTextField zoneSaisie;
     private JButton boutonValider;
+    private String currentInput;
+    private boolean inputAvailable = false;
 
     public LoveLetterView() {
         setTitle("Love Letter");
@@ -27,6 +30,12 @@ public class LoveLetterView extends JFrame {
         bas.add(zoneSaisie);
         bas.add(boutonValider);
 
+        boutonValider.addActionListener(e -> {
+            currentInput = zoneSaisie.getText();
+            zoneSaisie.setText("");
+            inputAvailable = true;
+        });
+
         add(scroll, "Center");
         add(bas, "South");
 
@@ -41,5 +50,19 @@ public class LoveLetterView extends JFrame {
         String texte = zoneSaisie.getText();
         zoneSaisie.setText("");
         return texte;
+    }
+
+    public String lireInput(String prompt) {
+        afficherMessage(prompt);
+        inputAvailable = false;
+        while (!inputAvailable) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return null;
+            }
+        }
+        return currentInput;
     }
 }

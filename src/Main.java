@@ -7,8 +7,8 @@ public class Main {
     // A chaque début de manche il faudra utiliser newRound pour chaque joueur
 
     public static void main(String[] args) {
+        CoreGame.view = new LoveLetterView();
         CoreGame.lancerPartie();
-        new LoveLetterView();
     }
 }
 
@@ -22,10 +22,6 @@ Revoir les consignes pour savoir si tout est bien fait
 - Gestion des exceptions
 
 Diagramme de Gantt
-
-On pourrait attaquer automatiquement l'autre joueur quand on est que 2 et qu'il n'y a donc pas de choix à faire
-
-Faire un read me pour annoncer la version java notamment
  */
 
 /*

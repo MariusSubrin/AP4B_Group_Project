@@ -2,7 +2,6 @@ package model.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import model.game.Card;
 import controller.CoreGame;
@@ -104,20 +103,24 @@ public class Player {
     }
 
     public void choixCarte() {
-        System.out.println("----------------------------------------------------------------------");
-        System.out.println("C'est le tour de " + this.getNom() + " !");
+        CoreGame.view.afficherMessage("----------------------------------------------------------------------");
+        CoreGame.view.afficherMessage("C'est le tour de " + this.getNom() + " !");
 
         if (this.hand.size() == 2) {
-            System.out.println("Voici vos cartes : \n");
+            CoreGame.view.afficherMessage("Voici vos cartes : \n");
             for (Card c : this.hand) {
-                System.out.println(c.toString());
+                CoreGame.view.afficherMessage(c.toString());
             }
 
             boolean flag = false;
             while (!flag) {
-                System.out.println("Laquelle voulez-vous jouer ? (donnez l'id) : \n");
+                String input = CoreGame.view.lireInput("Laquelle voulez-vous jouer ? (donnez l'id) : ");
+                if (input == null) {
+                    CoreGame.view.afficherMessage("Entrée invalide.");
+                    continue;
+                }
                 try {
-                    int choix = Integer.parseInt(CoreGame.sc.nextLine().trim());
+                    int choix = Integer.parseInt(input.trim());
 
                     // Recherche de la carte sans modifier la liste
                     Card carteAJouer = null;
@@ -132,26 +135,30 @@ public class Player {
                     if (carteAJouer != null) {
                         carteAJouer.jouerCarte(this);
                     } else {
-                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                        CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre valide. \n");
+                    CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
                 }
             }
         }
 
         if (this.hand.size() == 3) {
-            System.out.println("Voici vos cartes : \n");
+            CoreGame.view.afficherMessage("Voici vos cartes : \n");
             for (Card c : this.hand) {
-                System.out.println(c.toString());
+                CoreGame.view.afficherMessage(c.toString());
             }
 
             // Première carte à remettre
             boolean premiereCarteTrouvee = false;
             while (!premiereCarteTrouvee) {
-                System.out.println("Quelle 1ère carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
+                String input1 = CoreGame.view.lireInput("Quelle 1ère carte voulez-vous remettre dans la pioche? (donnez l'id) : ");
+                if (input1 == null) {
+                    CoreGame.view.afficherMessage("Entrée invalide.");
+                    continue;
+                }
                 try {
-                    int choix1 = Integer.parseInt(CoreGame.sc.nextLine().trim());
+                    int choix1 = Integer.parseInt(input1.trim());
 
                     Card premiereCarte = null;
                     for (Card c : this.hand) {
@@ -165,19 +172,23 @@ public class Player {
                         premiereCarte.mettreDansPioche();
                         premiereCarteTrouvee = true;
                     } else {
-                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                        CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre valide. \n");
+                    CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
                 }
             }
 
             // Deuxième carte à remettre
             boolean deuxiemeCarteTrouvee = false;
             while (!deuxiemeCarteTrouvee) {
-                System.out.println("Quelle 2ème carte voulez-vous remettre dans la pioche? (donnez l'id) : \n");
+                String input2 = CoreGame.view.lireInput("Quelle 2ème carte voulez-vous remettre dans la pioche? (donnez l'id) : ");
+                if (input2 == null) {
+                    CoreGame.view.afficherMessage("Entrée invalide.");
+                    continue;
+                }
                 try {
-                    int choix2 = Integer.parseInt(CoreGame.sc.nextLine().trim());
+                    int choix2 = Integer.parseInt(input2.trim());
 
                     Card deuxiemeCarte = null;
                     for (Card c : this.hand) {
@@ -191,10 +202,10 @@ public class Player {
                         deuxiemeCarte.mettreDansPioche();
                         deuxiemeCarteTrouvee = true;
                     } else {
-                        System.out.println("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                        CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Veuillez entrer un nombre valide. \n");
+                    CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
                 }
             }
         }
