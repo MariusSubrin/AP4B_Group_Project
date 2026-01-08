@@ -63,7 +63,7 @@ public abstract class Card {
     }
 
     public void jouerCarte(Player joueurActif) {
-        System.out.println(joueurActif.getNom() + " joue la carte " + this.nameCard + ".");
+        CoreGame.view.afficherMessage(joueurActif.getNom() + " joue la carte " + this.nameCard + ".");
         this.appliquerEffet(joueurActif);
         this.defausser(joueurActif);
     }

@@ -9,7 +9,7 @@ public class Espionne extends Card{
         // L'effet est de faire gagner un point de faveur en + au joueur si personne d'autre n'a joué d'Espionne.
         //Faut que le joueur soit toujours en lice à la fin.
         //Il ne peux gagner que 2 points max, même s'il a joué les 2 espionnes et qu'il gagne.
-        System.out.println("L'Espionne a été jouée.");
+        CoreGame.view.afficherMessage("L'Espionne a été jouée.");
 
         joueurActif.espionneJouee();
     }

@@ -10,19 +10,19 @@ public class Chancelier extends Card {
         System.out.println("Le Chancelier a été joué.");
         if(CoreGame.pioche.isEmpty())
         {
-            System.out.println("La pioche est vide l'effet est annulé.");
+            CoreGame.view.afficherMessage("La pioche est vide l'effet est annulé.");
             return;
         }
         if(CoreGame.pioche.size() == 1)
         {
-            System.out.println("Il n'y a qu'une seule carte dans la pioche, vous ne pouvez en piocher qu'une seule.");
+            CoreGame.view.afficherMessage("Il n'y a qu'une seule carte dans la pioche, vous ne pouvez en piocher qu'une seule.");
             Card carte1 = CoreGame.pioche.getLast(); //On récupére la carte
             carte1.mettreDansMain(joueurActif); //On modifie son statut et on la met dans la main du joueur
             CoreGame.pioche.removeLast(); //On n'oublie pas de supprimer celle de la pioche pour éviter les doublons
         }
         else
         {
-            System.out.println(joueurActif.getNom() + " pioche 2 cartes et en remet 2 sous la pioche.");
+            CoreGame.view.afficherMessage(joueurActif.getNom() + " pioche 2 cartes et en remet 2 sous la pioche.");
             Card carte1 = CoreGame.pioche.getLast(); //On récupére les cartes
             Card carte2 = CoreGame.pioche.get(CoreGame.pioche.size() - 2);
 

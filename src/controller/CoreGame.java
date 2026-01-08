@@ -16,7 +16,6 @@ public class CoreGame {
     // public static int faveurs = 13; // Nombre total de faveurs disponibles dans le jeu, utile ?
 
     public static void afficherPioche(){
-        view.afficherMessage("Test");
         for (Card c : pioche){
             view.afficherMessage(c.toString());
         }
@@ -134,6 +133,20 @@ public class CoreGame {
         new Espionne();
     }
 
+    public static void resetPioche(){
+        pioche.clear();
+        initPioche();
+        randomPioche();
+    }
+
+    public static void resetHands(){
+        for (Player p : joueurs) {
+            while (!p.hand.isEmpty()) {
+                p.hand.get(0).defausser(p);
+            }
+        }
+    }
+
     private static void randomPioche(){
         Collections.shuffle(pioche);
     }
@@ -210,8 +223,15 @@ public class CoreGame {
         deplacerGagnantEnPremier();
 
         //Random la pioche
-        randomPioche();
-
+        resetPioche();
+        try
+        {
+            resetHands();
+        }
+        catch (Exception e)
+        {
+            view.afficherMessage("Erreur lors de la réinitialisation des mains des joueurs : " + e.getMessage());
+        }
         //Initialiser la carte cachée
         if (pioche.isEmpty()) {
             throw new IllegalStateException("Pioche vide au début de la manche.");
@@ -231,7 +251,7 @@ public class CoreGame {
         }
 
         int i = 0;
-        while (!pioche.isEmpty() && howManyAlive() > 1){
+        while (!(pioche.isEmpty()) && (howManyAlive() > 1)){
             Player joueurActuel = joueurs.get(i % joueurs.size());
             if(!joueurActuel.isElimine()){
                 lancerTour(joueurActuel);
@@ -246,18 +266,23 @@ public class CoreGame {
 
     public static Player getWinner() {
         //On crée une liste de gagnant
+        view.afficherMessage("La manche est terminée. Détermination du gagnant...");
         List<Player> winners = new ArrayList<>();
 
-        if (howManyAlive() == 1) {
+        if (howManyAlive() == 1) 
+        {
+            view.afficherMessage("Un seul joueur reste en lice.");
             for (Player p : joueurs) {
-                if (!p.isElimine()) {
+                if (!(p.isElimine())) {
                     winners.add(p);
                 }
             }
             attributionPoints(winners);
         }
 
-        if (pioche.isEmpty()) {
+        if (pioche.isEmpty()) 
+        {
+            view.afficherMessage("La pioche est vide. Comparaison des cartes restantes...");
             int highestValue = -1;
 
             // Trouver la valeur la plus haute parmi les joueurs encore en jeu
@@ -271,7 +296,9 @@ public class CoreGame {
             }
 
             // Vérifier s'il y a égalité
-            for (Player p : joueurs) {
+            for (Player p : joueurs) 
+            {
+                view.afficherMessage("On verifie l'égalité pour ");
                 if (!p.isElimine() && !p.hand.isEmpty() && p.hand.get(0).getValueCard() == highestValue) {
                     winners.add(p);
                 }
@@ -280,17 +307,17 @@ public class CoreGame {
             attributionPoints(winners);
 
             if (winners.isEmpty()) {
+                view.afficherMessage("Aucun gagnant n'a été déterminé.");
                 throw new IllegalStateException("Aucun gagnant trouvé.");
-            } else if (winners.size() == 1) {
-                return winners.get(0);
+            } else if (winners.size() == 1) 
+            {
+                view.afficherMessage("Le gagnant de la manche est " + winners.get(0).getNom() + " !");
             } else {
                 // En cas d'égalité, tout les joueurs gagnants ont un point
                 view.afficherMessage("Égalité ! Tout les joueurs à égalité gagnent, le premier d'entre eux commencera la prochaine manche");
-                return winners.get(0);
             }
         }
-
-        throw new IllegalStateException("Aucun gagnant trouvé alors que la manche devrait être terminée.");
+        return winners.get(0);
     }
 
     public static void attributionPoints (List<Player> winners){
