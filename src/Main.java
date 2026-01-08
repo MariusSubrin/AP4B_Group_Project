@@ -1,4 +1,5 @@
 import controller.CoreGame;
+import view.LoveLetterView;
 
 public class Main {
     //Doit appeler les bons fichiers au début
@@ -7,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         CoreGame.lancerPartie();
-        //new LoveLetterView();
+        new LoveLetterView();
     }
 }
 
@@ -23,6 +24,8 @@ Revoir les consignes pour savoir si tout est bien fait
 Diagramme de Gantt
 
 On pourrait attaquer automatiquement l'autre joueur quand on est que 2 et qu'il n'y a donc pas de choix à faire
+
+Faire un read me pour annoncer la version java notamment
  */
 
 /*

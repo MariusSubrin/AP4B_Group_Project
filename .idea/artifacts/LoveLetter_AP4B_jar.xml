@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LoveLetter_AP4B:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LoveLetter_AP4B_jar</output-path>
+    <root id="archive" name="LoveLetter_AP4B.jar">
+      <element id="module-output" name="LoveLetter_AP4B" />
+    </root>
+  </artifact>
+</component>
