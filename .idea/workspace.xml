@@ -11,6 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aca24364-46e8-4f02-aa75-2544f692e38e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/CoreGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CoreGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../PROLOG/TD3.pl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP1.pl" beforeDir="false" />

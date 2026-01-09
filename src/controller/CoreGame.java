@@ -248,6 +248,9 @@ public class CoreGame {
 
         while(joueurMaxFaveurs().getNombreFaveur() < winFaveurs){
             view.afficherMessage("Début de la manche " + i);
+            if(i > 1){
+                resetPioche();
+            }
             lancerManche();
             i ++;
         }
@@ -341,8 +344,6 @@ public class CoreGame {
         // Déplacer le gagnant de la manche précédente en première position
         deplacerGagnantEnPremier();
 
-        // Réinitialiser la pioche et mélanger
-        resetPioche();
         initialiserInterface(); // Mise à jour de l'interface
 
         // Initialiser la carte cachée
@@ -353,6 +354,7 @@ public class CoreGame {
         pioche.remove(pioche.size() - 1);
         carteCachee.cacher();
 
+        //On montre la carté cachée ?
         view.afficherMessage("Carte cachée : " + carteCachee.getNameCard() + " (valeur: " + carteCachee.getValueCard() + ")");
 
         // Logique pour lancer la manche
