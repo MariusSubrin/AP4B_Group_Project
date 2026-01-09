@@ -141,8 +141,9 @@ public class CoreGame {
 
     public static void resetHands(){
         for (Player p : joueurs) {
-            while (!p.hand.isEmpty()) {
-                p.hand.get(0).defausser(p);
+            while (!p.hand.isEmpty()) 
+            {
+                p.hand.remove(p.hand.get(0));
             }
         }
     }

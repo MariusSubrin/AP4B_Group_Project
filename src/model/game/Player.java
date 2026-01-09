@@ -90,6 +90,7 @@ public class Player {
     }
 
     public void piocher(){
+        CoreGame.view.afficherMessage("Le joueur " + this.getNom() + " pioche une carte.");
         Card p = CoreGame.pioche.getLast();
         p.mettreDansMain(this);
         CoreGame.pioche.remove(CoreGame.pioche.size() - 1);
@@ -106,9 +107,11 @@ public class Player {
         CoreGame.view.afficherMessage("----------------------------------------------------------------------");
         CoreGame.view.afficherMessage("C'est le tour de " + this.getNom() + " !");
 
-        if (this.hand.size() == 2) {
+        if (this.hand.size() == 2) 
+        {
             CoreGame.view.afficherMessage("Voici vos cartes : \n");
-            for (Card c : this.hand) {
+            for (Card c : this.hand) 
+            {
                 CoreGame.view.afficherMessage(c.toString());
             }
 
@@ -119,7 +122,8 @@ public class Player {
                     CoreGame.view.afficherMessage("Entrée invalide.");
                     continue;
                 }
-                try {
+                try 
+                {
                     int choix = Integer.parseInt(input.trim());
 
                     // Recherche de la carte sans modifier la liste
@@ -170,6 +174,7 @@ public class Player {
 
                     if (premiereCarte != null) {
                         premiereCarte.mettreDansPioche();
+                        hand.remove(premiereCarte);
                         premiereCarteTrouvee = true;
                     } else {
                         CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
@@ -200,6 +205,7 @@ public class Player {
 
                     if (deuxiemeCarte != null) {
                         deuxiemeCarte.mettreDansPioche();
+                        hand.remove(deuxiemeCarte);
                         deuxiemeCarteTrouvee = true;
                     } else {
                         CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
@@ -209,5 +215,18 @@ public class Player {
                 }
             }
         }
+
+        if(this.hand.size() < 1)
+        {
+            // Ne devrait jamais arriver
+            CoreGame.view.afficherMessage("Erreur : Vous une seule carte en main.");
+        }
+        if(this.hand.size() >= 4)
+        {
+            // Ne devrait jamais arriver
+            CoreGame.view.afficherMessage("Erreur : Vous avez trop de cartes en main.");
+        }
     }
 }
+
+
