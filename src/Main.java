@@ -13,15 +13,7 @@ public class Main {
 }
 
 /*
-Listes de tests à faire (non compléte) :
-- Utilisation de toutes les cartes en lançant le jeu
-
-Soucis lorsque qu'on joue notre dame
-
-Revoir les consignes pour savoir si tout est bien fait
-- Gestion des exceptions
-
-Diagramme de Gantt
+Soucis lorsque qu'on joue notre princesse ?
  */
 
 /*
