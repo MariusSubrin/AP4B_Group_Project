@@ -1,14 +1,18 @@
 import controller.CoreGame;
 import view.LoveLetterView;
 
-public class Main {
-    //Doit appeler les bons fichiers au début
+import javax.swing.SwingUtilities;
 
-    // A chaque début de manche il faudra utiliser newRound pour chaque joueur
+public class Main {
 
     public static void main(String[] args) {
-        CoreGame.view = new LoveLetterView();
-        CoreGame.lancerPartie();
+
+        SwingUtilities.invokeLater(() -> {
+            CoreGame.view = new LoveLetterView();
+            new Thread(() -> {
+                CoreGame.lancerPartie();
+            }).start();
+        });
     }
 }
 
