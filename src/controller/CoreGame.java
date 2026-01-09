@@ -159,18 +159,33 @@ public class CoreGame {
         new Espionne();
     }
 
-    public static void resetPioche(){
-        pioche.clear();
-        initPioche();
-        randomPioche();
-    }
-
-    public static void resetHands(){
+    public static void resetPioche() {
+        // 1. Remettre les cartes des mains des joueurs dans la pioche
         for (Player p : joueurs) {
-            while (!p.hand.isEmpty()) {
-                p.hand.get(0).defausser(p);
+            // Vérifier si le joueur a des cartes en main
+            if (!p.hand.isEmpty()) {
+                // on utilise une copie de la liste pour éviter ConcurrentModificationException
+                List<Card> cartesEnMain = new ArrayList<>(p.hand);
+                for (Card c : cartesEnMain) {
+                    c.mettreDansPioche();
+                }
+                p.hand.clear();
             }
         }
+
+        // 2. Remettre les cartes défaussées dans la pioche
+        // On utilise une copie pour éviter ConcurrentModificationException
+        List<Card> cartesDefaussees = new ArrayList<>(carteDefausse);
+        for (Card c : cartesDefaussees) {
+            c.mettreDansPioche();
+        }
+        carteDefausse.clear();
+
+        // 3. Remettre la carte cachée dans la pioche
+        carteCachee.mettreDansPioche();
+        carteCachee = null;
+
+        System.out.println("Toutes les cartes ont été remises dans la pioche !");
     }
 
     private static void randomPioche(){
@@ -242,9 +257,6 @@ public class CoreGame {
         //Fermeture du scanner global automatiquement
 
     }
-
-    //Lancement d'une manche, à la fin il y a un gagnant qui gagne une ou deux faveurs
-
 
     // Méthode modifiée pour getWinner() pour mieux gérer l'affichage
     public static Player getWinner() {
@@ -333,12 +345,6 @@ public class CoreGame {
         resetPioche();
         initialiserInterface(); // Mise à jour de l'interface
 
-        try {
-            resetHands();
-        } catch (Exception e) {
-            view.afficherMessage("Erreur lors de la réinitialisation des mains des joueurs : " + e.getMessage());
-        }
-
         // Initialiser la carte cachée
         if (pioche.isEmpty()) {
             throw new IllegalStateException("Pioche vide au début de la manche.");
@@ -407,6 +413,7 @@ public class CoreGame {
         initialiserInterface(); // Dernière mise à jour
     }
 
+    //Début du tour d'un joueur
     public static void lancerTour(Player joueurActif) {
         // Désactiver la protection au début du tour
         joueurActif.protectionOff();
