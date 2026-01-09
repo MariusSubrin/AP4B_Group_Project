@@ -1,17 +1,38 @@
 import controller.CoreGame;
 import view.LoveLetterView;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 public class Main {
-
     public static void main(String[] args) {
-
+        // Démarrer l'interface Swing dans l'EDT
         SwingUtilities.invokeLater(() -> {
-            CoreGame.view = new LoveLetterView();
-            new Thread(() -> {
-                CoreGame.lancerPartie();
-            }).start();
+            try {
+                // 1. Créer et afficher la fenêtre
+                LoveLetterView fenetre = new LoveLetterView();
+                CoreGame.view = fenetre;
+
+                // 2. Attendre un peu que la fenêtre s'initialise
+                Thread.sleep(500);
+
+                // 3. Démarrer le jeu dans un thread séparé
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(300); // Petit délai supplémentaire
+                        CoreGame.lancerPartie();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        fenetre.afficherMessage("❌ Erreur lors du démarrage du jeu: " + e.getMessage());
+                    }
+                }).start();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Erreur critique: " + e.getMessage(),
+                        "Erreur", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
         });
     }
 }

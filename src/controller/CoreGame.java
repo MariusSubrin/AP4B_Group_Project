@@ -22,7 +22,6 @@ public class CoreGame {
     }
 
     public static Player demanderCible(Player joueurActif, Card carteActive) {
-
         view.afficherMessage("Joueurs disponibles :");
 
         // Vérifier s'il y a au moins une cible valide
@@ -35,29 +34,45 @@ public class CoreGame {
 
         // Si c'est le Prince, on peut se cibler soi-même (c'est autorisé)
         if (!auMoinsUneCibleValide && carteActive.getNameCard().equals("Prince")) {
-            auMoinsUneCibleValide = true; // On peut toujours se cibler soi-même avec le Prince
+            auMoinsUneCibleValide = true;
         }
 
         // Si aucune cible valide et que ce n'est pas le Prince
         if (!auMoinsUneCibleValide) {
-            view.afficherMessage("Aucune cible disponible (tous les joueurs sont protégés ou éliminés).");
+            view.afficherMessage("⚠ Aucune cible disponible (tous les joueurs sont protégés ou éliminés).");
             return null;
         }
 
-        // Afficher les joueurs disponibles
+        // Afficher les joueurs disponibles avec leurs IDs
+        StringBuilder message = new StringBuilder();
+        message.append("ID | Nom | Statut\n");
+        message.append("-----------------\n");
+
         for (Player p : joueurs) {
             if (!p.isElimine()) {
-                view.afficherMessage(p.getId() + " - " + p.getNom() +
-                        (p.hasProtection() ? " (protégé)" : "") +
-                        (p == joueurActif && carteActive.getNameCard().equals("Prince") ? " (vous-même - autorisé pour le Prince)" : ""));
+                message.append(p.getId()).append("  | ")
+                        .append(p.getNom());
+
+                if (p.hasProtection()) {
+                    message.append(" (🛡️ protégé)");
+                }
+
+                if (p == joueurActif && carteActive.getNameCard().equals("Prince")) {
+                    message.append(" (vous-même - autorisé pour le Prince)");
+                }
+
+                message.append("\n");
             }
         }
 
-        while (true) {
-            String input = view.lireInput(joueurActif.getNom() + ", qui vises-tu ? (donner l'id) :");
+        view.afficherMessage(message.toString());
 
-            if (input == null) {
-                view.afficherMessage("Entrée invalide.");
+        while (true) {
+            // Afficher clairement la demande
+            String input = view.lireInput(joueurActif.getNom() + ", qui vises-tu ? (entrez l'ID) :");
+
+            if (input == null || input.trim().isEmpty()) {
+                view.afficherMessage("❌ Entrée invalide.");
                 continue;
             }
 
@@ -65,7 +80,7 @@ public class CoreGame {
             try {
                 choix = Integer.parseInt(input.trim());
             } catch (NumberFormatException e) {
-                view.afficherMessage("Veuillez entrer un nombre valide.");
+                view.afficherMessage("❌ Veuillez entrer un nombre valide.");
                 continue;
             }
 
@@ -81,32 +96,43 @@ public class CoreGame {
 
             // Aucun joueur trouvé
             if (cible == null) {
-                view.afficherMessage("Aucun joueur ne correspond à cet id.");
+                view.afficherMessage("❌ Aucun joueur ne correspond à cet ID.");
                 continue;
             }
 
             // Auto-ciblage interdit (sauf Prince)
-            if (cible == joueurActif &&
-                    !carteActive.getNameCard().equals("Prince")) {
-                view.afficherMessage("Vous ne pouvez pas vous viser vous-même.");
+            if (cible == joueurActif && !carteActive.getNameCard().equals("Prince")) {
+                view.afficherMessage("❌ Vous ne pouvez pas vous viser vous-même.");
                 continue;
             }
 
             if (cible.isElimine()) {
-                view.afficherMessage("Ce joueur est éliminé.");
+                view.afficherMessage("❌ Ce joueur est éliminé.");
                 continue;
             }
 
             if (cible.hasProtection()) {
-                view.afficherMessage("Ce joueur est protégé.");
+                view.afficherMessage("❌ Ce joueur est protégé.");
                 continue;
             }
 
             // Cible valide
+            view.afficherMessage("Cible sélectionnée : " + cible.getNom());
             return cible;
         }
     }
 
+    public static void afficherEtAttendre(String message) {
+        if (view != null) {
+            view.afficherMessage(message);
+            // Petite pause pour la lisibilité
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
 
     public static void initPioche(){
         //Initialisation de la pioche
@@ -153,6 +179,16 @@ public class CoreGame {
 
     //Lancement du jeu global, à la fin c'est la fin du jeu et il y a un grand gagnant
     public static void lancerPartie(){
+        if (view == null) {
+            System.err.println("ERREUR: La vue n'est pas initialisée!");
+            return;
+        }
+
+        view.afficherMessage("✨ Début de la partie Love Letter ! ✨");
+        view.afficherSeparateur();
+        // Initialiser l'interface
+        initialiserInterface();
+
         // Logique pour lancer la partie
         view.afficherMessage("Début de la partie !");
 
@@ -208,80 +244,22 @@ public class CoreGame {
     }
 
     //Lancement d'une manche, à la fin il y a un gagnant qui gagne une ou deux faveurs
-    public static void lancerManche()
-    {
-        // Afficher les faveurs actuelles au début de la manche
-        view.afficherMessage("\n═══════════════════════════════════════");
-        view.afficherMessage("     DÉBUT D'UNE NOUVELLE MANCHE");
-        view.afficherMessage("═══════════════════════════════════════");
-        view.afficherMessage("Faveurs actuelles :");
-        for (Player joueur : joueurs) {
-            view.afficherMessage("  " + joueur.getNom() + " : " + joueur.getNombreFaveur() + " faveur(s)");
-        }
-        view.afficherMessage("═══════════════════════════════════════\n");
 
-        deplacerGagnantEnPremier();
 
-        //Random la pioche
-        resetPioche();
-        try
-        {
-            resetHands();
-        }
-        catch (Exception e)
-        {
-            view.afficherMessage("Erreur lors de la réinitialisation des mains des joueurs : " + e.getMessage());
-        }
-        //Initialiser la carte cachée
-        if (pioche.isEmpty()) {
-            throw new IllegalStateException("Pioche vide au début de la manche.");
-        }
-        carteCachee = pioche.get(pioche.size() - 1);
-        pioche.remove(pioche.size() - 1);
-
-        // Logique pour lancer la manche
-        for (Player joueur : joueurs) 
-        {
-            joueur.newRound(); //On reset tout les attributs
-        }
-        for(Player joueur : joueurs)
-        {
-            //Distribuer une carte à chaque joueur
-            joueur.piocher();
-        }
-
-        int i = 0;
-        while (!(pioche.isEmpty()) && (howManyAlive() > 1)){
-            Player joueurActuel = joueurs.get(i % joueurs.size());
-            if(!joueurActuel.isElimine()){
-                lancerTour(joueurActuel);
-            }
-            i++;
-        }
-
-        Player p = getWinner();
-        p.gagnant = true;
-        //Mettre le joueur ayant gagné pour débuter la prochaine manche (surement avec une vérification))
-    }
-
+    // Méthode modifiée pour getWinner() pour mieux gérer l'affichage
     public static Player getWinner() {
-        //On crée une liste de gagnant
         view.afficherMessage("La manche est terminée. Détermination du gagnant...");
         List<Player> winners = new ArrayList<>();
 
-        if (howManyAlive() == 1) 
-        {
+        if (howManyAlive() == 1) {
             view.afficherMessage("Un seul joueur reste en lice.");
             for (Player p : joueurs) {
-                if (!(p.isElimine())) {
+                if (!p.isElimine()) {
                     winners.add(p);
+                    break;
                 }
             }
-            attributionPoints(winners);
-        }
-
-        if (pioche.isEmpty()) 
-        {
+        } else if (pioche.isEmpty()) {
             view.afficherMessage("La pioche est vide. Comparaison des cartes restantes...");
             int highestValue = -1;
 
@@ -295,29 +273,38 @@ public class CoreGame {
                 }
             }
 
-            // Vérifier s'il y a égalité
-            for (Player p : joueurs) 
-            {
-                view.afficherMessage("On verifie l'égalité pour ");
+            // Ajouter tous les joueurs avec la valeur la plus haute
+            for (Player p : joueurs) {
                 if (!p.isElimine() && !p.hand.isEmpty() && p.hand.get(0).getValueCard() == highestValue) {
                     winners.add(p);
                 }
             }
+        }
 
-            attributionPoints(winners);
-
-            if (winners.isEmpty()) {
-                view.afficherMessage("Aucun gagnant n'a été déterminé.");
-                throw new IllegalStateException("Aucun gagnant trouvé.");
-            } else if (winners.size() == 1) 
-            {
-                view.afficherMessage("Le gagnant de la manche est " + winners.get(0).getNom() + " !");
-            } else {
-                // En cas d'égalité, tout les joueurs gagnants ont un point
-                view.afficherMessage("Égalité ! Tout les joueurs à égalité gagnent, le premier d'entre eux commencera la prochaine manche");
+        if (winners.isEmpty()) {
+            // Cas spécial : tous les joueurs sont éliminés sauf un
+            for (Player p : joueurs) {
+                if (!p.isElimine()) {
+                    winners.add(p);
+                    break;
+                }
             }
         }
-        return winners.get(0);
+
+        if (winners.isEmpty()) {
+            view.afficherMessage("Aucun gagnant n'a été déterminé.");
+            throw new IllegalStateException("Aucun gagnant trouvé.");
+        } else if (winners.size() == 1) {
+            view.afficherMessage("Le gagnant de la manche est " + winners.get(0).getNom() + " !");
+        } else {
+            view.afficherMessage("Égalité ! " + winners.size() + " joueurs à égalité :");
+            for (Player p : winners) {
+                view.afficherMessage("  - " + p.getNom() + " (carte: " + p.hand.get(0).getNameCard() + ")");
+            }
+        }
+
+        attributionPoints(winners);
+        return winners.get(0); // Retourne le premier gagnant pour la prochaine manche
     }
 
     public static void attributionPoints (List<Player> winners){
@@ -328,15 +315,169 @@ public class CoreGame {
         }
     }
 
-    //Lancement d'un tour, à la fin c'est à un autre joueur de jouer
-    public static void lancerTour(Player joueurActif)
-    {
+    public static void lancerManche() {
+        // Afficher les faveurs actuelles au début de la manche
+        view.afficherSeparateur();
+        view.afficherMessage("✨ DÉBUT D'UNE NOUVELLE MANCHE ✨");
+        view.afficherSeparateur();
+        view.afficherMessage("Faveurs actuelles :");
+        for (Player joueur : joueurs) {
+            view.afficherMessage("  " + joueur.getNom() + " : " + joueur.getNombreFaveur() + " faveur(s)");
+        }
+        view.afficherSeparateur();
+
+        // Déplacer le gagnant de la manche précédente en première position
+        deplacerGagnantEnPremier();
+
+        // Réinitialiser la pioche et mélanger
+        resetPioche();
+        initialiserInterface(); // Mise à jour de l'interface
+
+        try {
+            resetHands();
+        } catch (Exception e) {
+            view.afficherMessage("Erreur lors de la réinitialisation des mains des joueurs : " + e.getMessage());
+        }
+
+        // Initialiser la carte cachée
+        if (pioche.isEmpty()) {
+            throw new IllegalStateException("Pioche vide au début de la manche.");
+        }
+        carteCachee = pioche.get(pioche.size() - 1);
+        pioche.remove(pioche.size() - 1);
+        carteCachee.cacher();
+
+        view.afficherMessage("Carte cachée : " + carteCachee.getNameCard() + " (valeur: " + carteCachee.getValueCard() + ")");
+
+        // Logique pour lancer la manche
+        for (Player joueur : joueurs) {
+            joueur.newRound(); // On reset tout les attributs
+        }
+
+        view.afficherMessage("Distribution des cartes initiales...");
+        for (Player joueur : joueurs) {
+            // Distribuer une carte à chaque joueur
+            joueur.piocher();
+            view.afficherMessage("  " + joueur.getNom() + " a reçu une carte.");
+        }
+
+        initialiserInterface(); // Mettre à jour l'affichage après distribution
+
+        // Boucle principale de la manche
+        int i = 0;
+        while (!pioche.isEmpty() && howManyAlive() > 1) {
+            Player joueurActuel = joueurs.get(i % joueurs.size());
+            if (!joueurActuel.isElimine()) {
+                lancerTour(joueurActuel);
+                initialiserInterface(); // Mettre à jour après chaque tour
+            }
+            i++;
+
+            // Petite pause pour lisibilité
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        // Déterminer le gagnant de la manche
+        Player gagnantManche = getWinner();
+        gagnantManche.gagnant = true;
+
+        view.afficherSeparateur();
+        view.afficherMessage("🏆 " + gagnantManche.getNom() + " gagne la manche ! 🏆");
+
+        // Ajouter les faveurs (points) au(x) gagnant(s)
+        List<Player> winners = new ArrayList<>();
+        for (Player p : joueurs) {
+            if (!p.isElimine() || p == gagnantManche) {
+                winners.add(p);
+            }
+        }
+        attributionPoints(winners);
+
+        // Afficher les faveurs mises à jour
+        view.afficherMessage("Mise à jour des faveurs :");
+        for (Player p : winners) {
+            int points = p.isEspionneJouee() ? 2 : 1;
+            view.afficherMessage("  " + p.getNom() + " : +" + points + " faveur(s)");
+        }
+
+        initialiserInterface(); // Dernière mise à jour
+    }
+
+    public static void lancerTour(Player joueurActif) {
         // Désactiver la protection au début du tour
         joueurActif.protectionOff();
 
-        // Logique pour lancer le tour d'un joueur
-        joueurActif.piocher();
-        joueurActif.choixCarte();
+        // Mettre à jour l'interface
+        initialiserInterface();
+
+        view.afficherSeparateur();
+        view.afficherMessage("🎲 TOUR DE " + joueurActif.getNom().toUpperCase() + " 🎲");
+
+        // Vérifier si le joueur a la Comtesse et un Prince/Roi en main
+        boolean doitJouerComtesse = false;
+        if (joueurActif.hand.size() == 2) {
+            Card carte1 = joueurActif.hand.get(0);
+            Card carte2 = joueurActif.hand.get(1);
+
+            // Si le joueur a la Comtesse et un Prince (5) ou Roi (7)
+            if ((carte1.getNameCard().equals("Comtesse") &&
+                    (carte2.getNameCard().equals("Prince") || carte2.getNameCard().equals("Roi"))) ||
+                    (carte2.getNameCard().equals("Comtesse") &&
+                            (carte1.getNameCard().equals("Prince") || carte1.getNameCard().equals("Roi")))) {
+
+                doitJouerComtesse = true;
+                view.afficherMessage("⚠ " + joueurActif.getNom() + " a la Comtesse avec le Prince/Roi. La Comtesse doit être jouée !");
+            }
+        }
+
+        // Piocher une carte
+        if (!pioche.isEmpty()) {
+            view.afficherMessage("📚 " + joueurActif.getNom() + " pioche une carte...");
+            joueurActif.piocher();
+
+            // Si le joueur doit jouer la Comtesse, la sélectionner automatiquement
+            if (doitJouerComtesse) {
+                view.afficherMessage("La Comtesse est jouée automatiquement (règle spéciale).");
+                for (Card c : joueurActif.hand) {
+                    if (c.getNameCard().equals("Comtesse")) {
+                        c.jouerCarte(joueurActif);
+                        break;
+                    }
+                }
+            } else {
+                // Sinon, demander au joueur de choisir une carte
+                view.afficherMessage("C'est à vous de choisir une carte à jouer.");
+                joueurActif.choixCarte();
+            }
+        } else {
+            view.afficherMessage("La pioche est vide.");
+        }
+
+        // Afficher l'état après le tour
+        view.afficherMessage("État après le tour :");
+        if (!joueurActif.isElimine()) {
+            if (!joueurActif.hand.isEmpty()) {
+                view.afficherMessage("  Carte restante : " + joueurActif.hand.get(0).getNameCard());
+            } else {
+                view.afficherMessage("  Main vide");
+            }
+        } else {
+            view.afficherMessage("  " + joueurActif.getNom() + " a été éliminé !");
+        }
+
+        // Mettre à jour l'interface
+        initialiserInterface();
+
+        // Petite pause pour lisibilité
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public static Player joueurMaxFaveurs(){
@@ -378,6 +519,89 @@ public class CoreGame {
             }
         }
         return x;
+    }
+
+    // Dans CoreGame.java, ajoute ces méthodes :
+
+    public static void mettreAJourInterface() {
+        if (view == null) return;
+
+        // Mettre à jour les infos de jeu
+        view.mettreAJourInfosJeu(
+                pioche.size(),
+                carteDefausse.size(),
+                carteCachee != null ? "Carte cachée (" + carteCachee.getNameCard() + ")" : "Non définie"
+        );
+
+        // Mettre à jour les infos des joueurs
+        String[] joueursInfo = new String[joueurs.size()];
+        for (int i = 0; i < joueurs.size(); i++) {
+            Player p = joueurs.get(i);
+            StringBuilder info = new StringBuilder();
+            info.append(p.getNom()).append(" | ");
+            info.append(p.getNombreFaveur()).append(" faveurs | ");
+            info.append(p.isElimine() ? "Éliminé" : "En jeu").append(" | ");
+            info.append(p.hasProtection() ? "🛡️ Protégé" : "");
+
+            // Ajouter un indicateur si c'est le gagnant de la manche précédente
+            if (p.gagnant) {
+                info.append(" 👑");
+            }
+
+            joueursInfo[i] = info.toString();
+        }
+
+        view.mettreAJourJoueurs(joueursInfo);
+    }
+
+    public static void afficherMessageAvecStyle(String message) {
+        if (view != null) {
+            view.afficherMessage(message);
+        }
+    }
+
+    public static void afficherSeparateur() {
+        if (view != null) {
+            view.afficherSeparateur();
+        }
+    }
+
+    // Méthode pour initialiser et mettre à jour l'interface
+    public static void initialiserInterface() {
+        if (view == null) return;
+
+        // Mettre à jour les infos de jeu
+        view.mettreAJourInfosJeu(
+                pioche.size(),
+                carteDefausse.size(),
+                carteCachee != null ? carteCachee.getNameCard() + " (valeur: " + carteCachee.getValueCard() + ")" : "Non définie"
+        );
+
+        // Mettre à jour les infos des joueurs
+        String[] joueursInfo = new String[joueurs.size()];
+        for (int i = 0; i < joueurs.size(); i++) {
+            Player p = joueurs.get(i);
+            StringBuilder info = new StringBuilder();
+            info.append(p.getNom()).append(" | ");
+            info.append(p.getNombreFaveur()).append(" faveurs | ");
+            info.append(p.isElimine() ? "Éliminé" : "En jeu").append(" | ");
+            if (p.hasProtection()) {
+                info.append("🛡️ Protégé");
+            }
+            if (p.gagnant) {
+                info.append(" 👑");
+            }
+
+            // Ajouter la carte en main si elle est visible
+            if (!p.isElimine() && !p.hand.isEmpty() && p == joueurs.get(0)) {
+                // Pour le joueur actif, on peut montrer sa carte
+                info.append(" | Main: ").append(p.hand.get(0).getNameCard());
+            }
+
+            joueursInfo[i] = info.toString();
+        }
+
+        view.mettreAJourJoueurs(joueursInfo);
     }
 
     //Exemple appel view

@@ -10,7 +10,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aca24364-46e8-4f02-aa75-2544f692e38e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/SplashScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Card.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Card.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/CoreGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CoreGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/game/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/game/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/game/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/LoveLetterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/LoveLetterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/TD3.pl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP1.pl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP2_1.pl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP2_2.pl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP3.pl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP4.pl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../PROLOG/revisions_median.pl" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +55,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",

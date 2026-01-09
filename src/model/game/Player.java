@@ -103,26 +103,27 @@ public class Player {
     }
 
     public void choixCarte() {
-        CoreGame.view.afficherMessage("----------------------------------------------------------------------");
-        CoreGame.view.afficherMessage("C'est le tour de " + this.getNom() + " !");
 
         if (this.hand.size() == 2) {
-            CoreGame.view.afficherMessage("Voici vos cartes : \n");
+            CoreGame.view.afficherMessage("Vos 2 cartes en main :");
             for (Card c : this.hand) {
                 CoreGame.view.afficherMessage(c.toString());
             }
+            CoreGame.view.afficherMessage("");
 
             boolean flag = false;
             while (!flag) {
-                String input = CoreGame.view.lireInput("Laquelle voulez-vous jouer ? (donnez l'id) : ");
-                if (input == null) {
-                    CoreGame.view.afficherMessage("Entrée invalide.");
+                String input = CoreGame.view.lireInput("Quelle carte voulez-vous jouer ? (entrez l'ID) :");
+
+                if (input == null || input.trim().isEmpty()) {
+                    CoreGame.view.afficherMessage("❌ Entrée invalide.");
                     continue;
                 }
+
                 try {
                     int choix = Integer.parseInt(input.trim());
 
-                    // Recherche de la carte sans modifier la liste
+                    // Recherche de la carte
                     Card carteAJouer = null;
                     for (Card c : this.hand) {
                         if (choix == c.getIdCard()) {
@@ -133,34 +134,36 @@ public class Player {
                     }
 
                     if (carteAJouer != null) {
+                        CoreGame.view.afficherMessage("Vous jouez la carte : " + carteAJouer.getNameCard());
                         carteAJouer.jouerCarte(this);
                     } else {
-                        CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                        CoreGame.view.afficherMessage("❌ L'ID donné ne correspond à aucune carte. Réessayez.");
                     }
                 } catch (NumberFormatException e) {
-                    CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
+                    CoreGame.view.afficherMessage("❌ Veuillez entrer un nombre valide.");
                 }
             }
         }
 
         if (this.hand.size() == 3) {
-            CoreGame.view.afficherMessage("Voici vos cartes : \n");
+            CoreGame.view.afficherMessage("Vous avez 3 cartes (Chancelier). Choisissez 2 cartes à remettre :");
             for (Card c : this.hand) {
                 CoreGame.view.afficherMessage(c.toString());
             }
 
             // Première carte à remettre
-            boolean premiereCarteTrouvee = false;
-            while (!premiereCarteTrouvee) {
-                String input1 = CoreGame.view.lireInput("Quelle 1ère carte voulez-vous remettre dans la pioche? (donnez l'id) : ");
-                if (input1 == null) {
-                    CoreGame.view.afficherMessage("Entrée invalide.");
+            Card premiereCarte = null;
+            while (premiereCarte == null) {
+                String input1 = CoreGame.view.lireInput("1ère carte à remettre dans la pioche (entrez l'ID) :");
+
+                if (input1 == null || input1.trim().isEmpty()) {
+                    CoreGame.view.afficherMessage("❌ Entrée invalide.");
                     continue;
                 }
+
                 try {
                     int choix1 = Integer.parseInt(input1.trim());
 
-                    Card premiereCarte = null;
                     for (Card c : this.hand) {
                         if (choix1 == c.getIdCard()) {
                             premiereCarte = c;
@@ -169,44 +172,59 @@ public class Player {
                     }
 
                     if (premiereCarte != null) {
+                        CoreGame.view.afficherMessage("✅ 1ère carte : " + premiereCarte.getNameCard());
                         premiereCarte.mettreDansPioche();
-                        premiereCarteTrouvee = true;
                     } else {
-                        CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                        CoreGame.view.afficherMessage("❌ ID invalide.");
                     }
                 } catch (NumberFormatException e) {
-                    CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
+                    CoreGame.view.afficherMessage("❌ Veuillez entrer un nombre valide.");
                 }
             }
 
             // Deuxième carte à remettre
-            boolean deuxiemeCarteTrouvee = false;
-            while (!deuxiemeCarteTrouvee) {
-                String input2 = CoreGame.view.lireInput("Quelle 2ème carte voulez-vous remettre dans la pioche? (donnez l'id) : ");
-                if (input2 == null) {
-                    CoreGame.view.afficherMessage("Entrée invalide.");
+            Card deuxiemeCarte = null;
+            while (deuxiemeCarte == null) {
+                String input2 = CoreGame.view.lireInput("2ème carte à remettre dans la pioche (entrez l'ID) :");
+
+                if (input2 == null || input2.trim().isEmpty()) {
+                    CoreGame.view.afficherMessage("❌ Entrée invalide.");
                     continue;
                 }
+
                 try {
                     int choix2 = Integer.parseInt(input2.trim());
 
-                    Card deuxiemeCarte = null;
                     for (Card c : this.hand) {
-                        if (choix2 == c.getIdCard()) {
+                        if (choix2 == c.getIdCard() && c != premiereCarte) {
                             deuxiemeCarte = c;
                             break;
                         }
                     }
 
                     if (deuxiemeCarte != null) {
+                        CoreGame.view.afficherMessage("✅ 2ème carte : " + deuxiemeCarte.getNameCard());
                         deuxiemeCarte.mettreDansPioche();
-                        deuxiemeCarteTrouvee = true;
                     } else {
-                        CoreGame.view.afficherMessage("L'id donné ne correspond à aucune carte. Réessayez. \n");
+                        CoreGame.view.afficherMessage("❌ ID invalide ou même carte.");
                     }
                 } catch (NumberFormatException e) {
-                    CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
+                    CoreGame.view.afficherMessage("❌ Veuillez entrer un nombre valide.");
                 }
+            }
+
+            // Maintenant choisir quelle carte jouer
+            Card carteRestante = null;
+            for (Card c : this.hand) {
+                if (c != premiereCarte && c != deuxiemeCarte) {
+                    carteRestante = c;
+                    break;
+                }
+            }
+
+            if (carteRestante != null) {
+                CoreGame.view.afficherMessage("✅ Vous jouez la carte restante : " + carteRestante.getNameCard());
+                carteRestante.jouerCarte(this);
             }
         }
     }
