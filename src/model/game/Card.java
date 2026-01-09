@@ -63,10 +63,9 @@ public abstract class Card {
     }
 
     public void jouerCarte(Player joueurActif) {
-        CoreGame.view.afficherMessage(joueurActif.getNom() + " joue la carte " + this.nameCard);
+        CoreGame.view.afficherMessage(joueurActif.getNom() + " joue la carte " + this.nameCard + ".");
         this.appliquerEffet(joueurActif);
         this.defausser(joueurActif);
-        CoreGame.view.afficherMessage("✅ Carte " + this.nameCard + " a été défaussée.");
     }
 
     public void cacher() {
@@ -76,66 +75,22 @@ public abstract class Card {
     @Override //Pour afficher la carte au joueur (les vérifications se feront dans la méthode affiche de la classe Player)
     public String toString() {
         String symbole = "";
-        String couleur = "";
-
         switch (nameCard) {
-            case "Princesse":
-                symbole = "👑";
-                couleur = "ROSE";
-                break;
-            case "Comtesse":
-                symbole = "👸";
-                couleur = "VIOLET";
-                break;
-            case "Roi":
-                symbole = "🤴";
-                couleur = "OR";
-                break;
-            case "Chancelier":
-                symbole = "💼";
-                couleur = "GRIS";
-                break;
-            case "Prince":
-                symbole = "👨‍💼";
-                couleur = "BLEU";
-                break;
-            case "Servante":
-                symbole = "👰";
-                couleur = "BEIGE";
-                break;
-            case "Baron":
-                symbole = "🎩";
-                couleur = "MARRON";
-                break;
-            case "Pretre":
-                symbole = "🙏";
-                couleur = "BLANC";
-                break;
-            case "Garde":
-                symbole = "🛡️";
-                couleur = "ARGENT";
-                break;
-            case "Espionne":
-                symbole = "🕵️";
-                couleur = "INDIGO";
-                break;
-            default:
-                symbole = "🃏";
-                couleur = "NOIR";
+            case "Princesse": symbole = "👑"; break;
+            case "Comtesse": symbole = "👸"; break;
+            case "Roi": symbole = "🤴"; break;
+            case "Chancelier": symbole = "💼"; break;
+            case "Prince": symbole = "👨‍💼"; break;
+            case "Servante": symbole = "👰"; break;
+            case "Baron": symbole = "🎩"; break;
+            case "Pretre": symbole = "🙏"; break;
+            case "Garde": symbole = "🛡️"; break;
+            case "Espionne": symbole = "🕵️"; break;
+            default: symbole = "🃏";
         }
 
-        return String.format("" +
-                        "┌─────────────────┐\n" +
-                        "│ %-15s \n" +
-                        "├─────────────────┤\n" +
-                        "│ %-2s Valeur: %-2d   \n" +
-                        "│ %-15s \n" +
-                        "│ ID: %-11d \n" +
-                        "└─────────────────┘",
-                nameCard,
-                symbole, valueCard,
-                couleur,
-                idCard);
+        return String.format("│ %-12s %-2s │ (valeur: %d, id: %d)",
+                nameCard, symbole, valueCard, idCard);
     }
 
     // Méthode "virtuelle pure" (méthode abstraite)
