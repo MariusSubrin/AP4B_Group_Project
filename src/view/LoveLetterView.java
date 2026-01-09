@@ -59,6 +59,7 @@ public class LoveLetterView extends JFrame {
 
         boutonValider.addActionListener(e -> {
             currentInput = zoneSaisie.getText();
+            zoneTexte.append("Saisie utilisateur : " + currentInput + "\n");
             zoneSaisie.setText("");
             inputAvailable = true;
         });
@@ -69,6 +70,7 @@ public class LoveLetterView extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     currentInput = zoneSaisie.getText();
+                    zoneTexte.append("Saisie utilisateur : " + currentInput + "\n");
                     zoneSaisie.setText("");
                     inputAvailable = true;
                 }
@@ -88,6 +90,7 @@ public class LoveLetterView extends JFrame {
 
     public String lireSaisie() {
         String texte = zoneSaisie.getText();
+        zoneTexte.append("Saisie utilisateur : " + texte + "\n");
         zoneSaisie.setText("");
         return texte;
     }

@@ -62,7 +62,7 @@ public class Player {
 
     public void elimination() {
         this.elimine = true;
-        this.hand.getFirst().defausser(this);
+        this.hand.get(0).defausser(this);
     }
 
     public void resurrection() {
@@ -91,7 +91,7 @@ public class Player {
 
     public void piocher(){
         CoreGame.view.afficherMessage("Le joueur " + this.getNom() + " pioche une carte.");
-        Card p = CoreGame.pioche.getLast();
+        Card p = CoreGame.pioche.get(CoreGame.pioche.size() - 1);
         p.mettreDansMain(this);
         CoreGame.pioche.remove(CoreGame.pioche.size() - 1);
     }

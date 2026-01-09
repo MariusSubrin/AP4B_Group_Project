@@ -39,7 +39,7 @@ public class CoreGame {
         }
 
         // Si aucune cible valide et que ce n'est pas le Prince
-        if (!auMoinsUneCibleValide) {
+        if (!auMoinsUneCibleValide && !carteActive.getNameCard().equals("Prince")) {
             view.afficherMessage("Aucune cible disponible (tous les joueurs sont protégés ou éliminés).");
             return null;
         }
@@ -166,6 +166,7 @@ public class CoreGame {
             }
             try {
                 nbjoueurs = Integer.parseInt(inputNb.trim());
+                view.afficherMessage("Veuillez saisir les " + nbjoueurs + " joueurs.");
             } catch (NumberFormatException e) {
                 view.afficherMessage("Veuillez entrer un nombre valide.");
                 continue;
@@ -183,13 +184,15 @@ public class CoreGame {
             joueurs.add(new Player(nomJoueur.trim()));
         }
 
-        int winFaveurs = switch (nbjoueurs) {
-            case 2 -> 6;
-            case 3 -> 5;
-            case 4 -> 4;
-            case 5, 6 -> 3;
-            default -> 0; // sécurité
-        };
+        int winFaveurs;
+        switch (nbjoueurs) {
+            case 2: winFaveurs = 6; break;
+            case 3: winFaveurs = 5; break;
+            case 4: winFaveurs = 4; break;
+            case 5:
+            case 6: winFaveurs = 3; break;
+            default: winFaveurs = 0; // sécurité
+        }
 
         //Initialisation de la pioche
         initPioche();

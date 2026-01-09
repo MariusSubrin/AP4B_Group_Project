@@ -20,7 +20,7 @@ public class Baron extends Card {
             choix.elimination();
             if(choix.hand.size() > 0)
             {
-            CoreGame.view.afficherMessage(choix.getNom() + " est éliminé, sa carte était : " + choix.hand.getFirst());
+            CoreGame.view.afficherMessage(choix.getNom() + " est éliminé, sa carte était : " + choix.hand.get(0));
             }
             else
             {
@@ -32,7 +32,7 @@ public class Baron extends Card {
         }
         else{
             joueurActif.elimination();
-            CoreGame.view.afficherMessage(joueurActif.getNom() + " est éliminé, sa carte était : " + joueurActif.hand.getFirst());
+            CoreGame.view.afficherMessage(joueurActif.getNom() + " est éliminé, sa carte était : " + joueurActif.hand.get(0));
         }
     }
 

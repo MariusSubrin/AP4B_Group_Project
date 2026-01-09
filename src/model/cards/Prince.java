@@ -17,11 +17,11 @@ public class Prince extends Card {
             return;
         }
 
-        CoreGame.view.afficherMessage(choix.getNom() + " a défaussé : " + choix.hand.getFirst().toString());
-        choix.hand.getFirst().defausser(choix); // Le joueur ciblé défausse sa carte
+        CoreGame.view.afficherMessage(choix.getNom() + " a défaussé : " + choix.hand.get(0).toString());
+        choix.hand.get(0).defausser(choix); // Le joueur ciblé défausse sa carte
         if(!CoreGame.pioche.isEmpty()) {
-            choix.hand.add(CoreGame.pioche.getLast());
-            CoreGame.pioche.removeLast();
+            choix.hand.add(CoreGame.pioche.get(CoreGame.pioche.size() - 1));
+            CoreGame.pioche.remove(CoreGame.pioche.size() - 1);
         } else {
             CoreGame.view.afficherMessage("La pioche est vide.");
         }
