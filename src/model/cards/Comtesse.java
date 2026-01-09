@@ -12,7 +12,7 @@ public class Comtesse extends Card {
     }
 
     public Comtesse() {
-        super("c", 8);
+        super("Étudiante exemplaire", 8);
     }
 
 }
