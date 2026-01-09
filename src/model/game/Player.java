@@ -113,24 +113,32 @@ public class Player {
 
         if (this.hand.size() == 2) 
         {
-            int ComtesseCond = 0;
+            boolean ComtesseCond1 = false;
+            boolean ComtesseCond2 = false;
             for(Card c : this.hand)
             {
-                if(c.getNameCard() == "Étudiant exemplaire" || c.getNameCard() == "Responsable de filière" || c.getNameCard() == "Responsable de module")
+                if(c.getNameCard() == "Responsable de filière" || c.getNameCard() == "Responsable de module")
                 {
-                    ComtesseCond++;
+                    ComtesseCond1 = true;
+                }
+                if(c.getNameCard() == "Étudiante exemplaire")
+                {
+                    ComtesseCond2 = true;
                 }
             }
-            if(ComtesseCond >= 2)
+            if(ComtesseCond1 && ComtesseCond2)
             {
                 for(Card c : this.hand)
                 {
                     if(c.getNameCard() == "Étudiant exemplaire")
                     {
+                        CoreGame.view.afficherMessage("Les conditions de Étudiant exemplaire ont été validés. Le carte doit être jouée");
                         c.jouerCarte(this);
                     }
                 }
             }
+            else 
+                {
             CoreGame.view.afficherMessage("Voici vos cartes : \n");
             for (Card c : this.hand) 
             {
@@ -165,6 +173,7 @@ public class Player {
                     }
                 } catch (NumberFormatException e) {
                     CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
+                }
                 }
             }
         }
