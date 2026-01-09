@@ -88,13 +88,6 @@ public class LoveLetterView extends JFrame {
         zoneTexte.append(msg + "\n");
     }
 
-    public String lireSaisie() {
-        String texte = zoneSaisie.getText();
-        zoneTexte.append("Saisie utilisateur : " + texte + "\n");
-        zoneSaisie.setText("");
-        return texte;
-    }
-
     public String lireInput(String prompt) {
         afficherMessage(prompt);
         inputAvailable = false;

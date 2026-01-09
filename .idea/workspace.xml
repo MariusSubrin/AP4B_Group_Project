@@ -11,25 +11,41 @@
   <component name="ChangeListManager">
     <list default="true" id="aca24364-46e8-4f02-aa75-2544f692e38e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/LoveLetter_AP4B_jar/LoveLetter_AP4B.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Baron.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Chancelier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Comtesse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Espionne.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Garde.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Pretre.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Prince.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Princesse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Roi.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Servante.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Card$State.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Card.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/controller/CoreGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Baron.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Baron.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Chancelier.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Chancelier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Comtesse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Comtesse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Espionne.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Espionne.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Garde.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Garde.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Pretre.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Pretre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Prince.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Prince.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Princesse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Princesse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Roi.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Roi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Servante.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/cards/Servante.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/model/game/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LoveLetter_AP4B/view/LoveLetterView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/CoreGame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/CoreGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/CoreGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Baron.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Chancelier.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Comtesse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Espionne.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Garde.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Pretre.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Prince.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Princesse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Roi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/cards/Servante.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/game/Card$State.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/game/Card.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/game/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/LoveLetterView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/LoveLetterView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/LoveLetterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/LoveLetterView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../PROLOG/TD3.pl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP1.pl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../PROLOG/TP2_1.pl" beforeDir="false" />

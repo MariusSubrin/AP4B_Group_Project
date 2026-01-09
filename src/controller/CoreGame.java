@@ -15,6 +15,7 @@ public class CoreGame {
     public static LoveLetterView view; // Vue GUI
     // public static int faveurs = 13; // Nombre total de faveurs disponibles dans le jeu, utile ?
 
+    //Non utilisé mais utile pour des améliorations futures
     public static void afficherPioche(){
         for (Card c : pioche){
             view.afficherMessage(c.toString());
@@ -133,19 +134,35 @@ public class CoreGame {
         new Espionne();
     }
 
-    public static void resetPioche(){
-        pioche.clear();
-        initPioche();
-        randomPioche();
-    }
-
-    public static void resetHands(){
+    public static void resetPioche() {
+        // 1. Remettre les cartes des mains des joueurs dans la pioche
         for (Player p : joueurs) {
-            while (!p.hand.isEmpty()) 
-            {
-                p.hand.remove(p.hand.get(0));
+            // Vérifier si le joueur a des cartes en main
+            if (!p.hand.isEmpty()) {
+                // on utilise une copie de la liste pour éviter ConcurrentModificationException
+                List<Card> cartesEnMain = new ArrayList<>(p.hand);
+                for (Card c : cartesEnMain) {
+                    c.mettreDansPioche();
+                }
+                p.hand.clear();
             }
         }
+
+        // 2. Remettre les cartes défaussées dans la pioche
+        // On utilise une copie pour éviter ConcurrentModificationException
+        List<Card> cartesDefaussees = new ArrayList<>(carteDefausse);
+        for (Card c : cartesDefaussees) {
+            c.mettreDansPioche();
+        }
+        carteDefausse.clear();
+
+        // 3. Remettre la carte cachée dans la pioche
+        carteCachee.mettreDansPioche();
+        carteCachee = null;
+
+        randomPioche();
+
+        System.out.println("Toutes les cartes ont été remises dans la pioche !");
     }
 
     private static void randomPioche(){
@@ -194,14 +211,20 @@ public class CoreGame {
             default: winFaveurs = 0; // sécurité
         }
 
-        //Initialisation de la pioche
-        initPioche();
-
         int i = 1;
+
+        //On initialise la pioche que la première fois
+        if(i == 1) {
+            //Initialisation de la pioche
+            initPioche();
+        }
 
         while(joueurMaxFaveurs().getNombreFaveur() < winFaveurs){
             view.afficherMessage("Début de la manche " + i);
-            lancerManche();
+            if(i > 1) {
+                resetPioche();
+            }
+                lancerManche();
             i ++;
         }
 
@@ -226,16 +249,6 @@ public class CoreGame {
 
         deplacerGagnantEnPremier();
 
-        //Random la pioche
-        resetPioche();
-        try
-        {
-            resetHands();
-        }
-        catch (Exception e)
-        {
-            view.afficherMessage("Erreur lors de la réinitialisation des mains des joueurs : " + e.getMessage());
-        }
         //Initialiser la carte cachée
         if (pioche.isEmpty()) {
             throw new IllegalStateException("Pioche vide au début de la manche.");
@@ -266,6 +279,17 @@ public class CoreGame {
         Player p = getWinner();
         p.gagnant = true;
         //Mettre le joueur ayant gagné pour débuter la prochaine manche (surement avec une vérification))
+    }
+
+    //Lancement d'un tour, à la fin c'est à un autre joueur de jouer
+    public static void lancerTour(Player joueurActif)
+    {
+        // Désactiver la protection au début du tour
+        joueurActif.protectionOff();
+
+        // Logique pour lancer le tour d'un joueur
+        joueurActif.piocher();
+        joueurActif.choixCarte();
     }
 
     public static Player getWinner() {
@@ -330,17 +354,6 @@ public class CoreGame {
                 p.ajouterFaveur(2);
             }else p.ajouterFaveur(1);
         }
-    }
-
-    //Lancement d'un tour, à la fin c'est à un autre joueur de jouer
-    public static void lancerTour(Player joueurActif)
-    {
-        // Désactiver la protection au début du tour
-        joueurActif.protectionOff();
-
-        // Logique pour lancer le tour d'un joueur
-        joueurActif.piocher();
-        joueurActif.choixCarte();
     }
 
     public static Player joueurMaxFaveurs(){
