@@ -113,6 +113,24 @@ public class Player {
 
         if (this.hand.size() == 2) 
         {
+            int ComtesseCond = 0;
+            for(Card c : this.hand)
+            {
+                if(c.getNameCard() == "Étudiant exemplaire" || c.getNameCard() == "Responsable de filière" || c.getNameCard() == "Responsable de module")
+                {
+                    ComtesseCond++;
+                }
+            }
+            if(ComtesseCond >= 2)
+            {
+                for(Card c : this.hand)
+                {
+                    if(c.getNameCard() == "Étudiant exemplaire")
+                    {
+                        c.jouerCarte(this);
+                    }
+                }
+            }
             CoreGame.view.afficherMessage("Voici vos cartes : \n");
             for (Card c : this.hand) 
             {
