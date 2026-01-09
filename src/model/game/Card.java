@@ -60,12 +60,17 @@ public abstract class Card {
         this.stateCard = State.DEFAUSSEE;
         CoreGame.carteDefausse.add(this);
         player.hand.remove(this);
+        if(this.getNameCard() == "Diplôme")
+        {
+            player.elimination();
+            CoreGame.view.afficherMessage(this.getNameCard() + " a été défaussé. Le joueur qui la possède est éliminé.");
+        }
     }
 
     public void jouerCarte(Player joueurActif) {
         CoreGame.view.afficherMessage(joueurActif.getNom() + " joue la carte " + this.nameCard + ".");
-        this.appliquerEffet(joueurActif);
         this.defausser(joueurActif);
+        this.appliquerEffet(joueurActif);
     }
 
     public void cacher() {
@@ -75,17 +80,18 @@ public abstract class Card {
     @Override //Pour afficher la carte au joueur (les vérifications se feront dans la méthode affiche de la classe Player)
     public String toString() {
         String symbole = "";
-        switch (nameCard) {
-            case "Princesse": symbole = "👑"; break;
-            case "Comtesse": symbole = "👸"; break;
-            case "Roi": symbole = "🤴"; break;
-            case "Chancelier": symbole = "💼"; break;
-            case "Prince": symbole = "👨‍💼"; break;
-            case "Servante": symbole = "👰"; break;
-            case "Baron": symbole = "🎩"; break;
-            case "Pretre": symbole = "🙏"; break;
-            case "Garde": symbole = "🛡️"; break;
-            case "Espionne": symbole = "🕵️"; break;
+        switch (nameCard) 
+        {
+            case "Diplôme": symbole = "👑"; break;
+            case "Étudiante exemplaire": symbole = "👸"; break;
+            case "Responsable de filière": symbole = "🤴"; break;
+            case "Administration universitaire": symbole = "💼"; break;
+            case "Responsable de module": symbole = "👨‍💼"; break;
+            case "Étudiante protégée": symbole = "👰"; break;
+            case "Étudiant": symbole = "🎩"; break;
+            case "Délégué": symbole = "🙏"; break;
+            case "Étudiant surveillant": symbole = "🛡️"; break;
+            case "Observation discret   ": symbole = "🕵️"; break;
             default: symbole = "🃏";
         }
 

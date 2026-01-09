@@ -7,7 +7,7 @@ public class Chancelier extends Card {
     @Override
     public void appliquerEffet(Player joueurActif) {
         // L'effet du Chancelier est de piocher 2 cartes et d'en remettre 2 sous la pioche.
-        System.out.println("Le " + getNameCard() + " a été joué.");
+        CoreGame.view.afficherMessage(getNameCard() + " a été joué.");
         if(CoreGame.pioche.isEmpty())
         {
             CoreGame.view.afficherMessage("La pioche est vide l'effet est annulé.");

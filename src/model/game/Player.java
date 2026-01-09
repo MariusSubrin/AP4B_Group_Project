@@ -93,6 +93,10 @@ public class Player {
         CoreGame.view.afficherMessage("Le joueur " + this.getNom() + " pioche une carte.");
         Card p = CoreGame.pioche.get(CoreGame.pioche.size() - 1);
         p.mettreDansMain(this);
+        if(hand.size()==0)
+        {
+            CoreGame.view.afficherMessage("Etrange");
+        }
         CoreGame.pioche.remove(CoreGame.pioche.size() - 1);
     }
 
@@ -214,17 +218,6 @@ public class Player {
                     CoreGame.view.afficherMessage("Veuillez entrer un nombre valide. \n");
                 }
             }
-        }
-
-        if(this.hand.size() < 1)
-        {
-            // Ne devrait jamais arriver
-            CoreGame.view.afficherMessage("Erreur : Vous une seule carte en main.");
-        }
-        if(this.hand.size() >= 4)
-        {
-            // Ne devrait jamais arriver
-            CoreGame.view.afficherMessage("Erreur : Vous avez trop de cartes en main.");
         }
     }
 }

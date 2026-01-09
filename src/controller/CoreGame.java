@@ -376,8 +376,10 @@ public class CoreGame {
 
     public static int howManyAlive(){
         int x = 0;
-        for (Player p : joueurs){
-            if(!p.isElimine()){
+        for (Player p : joueurs)
+        {
+            if(!p.isElimine())
+            {
                 x ++;
             }
         }
