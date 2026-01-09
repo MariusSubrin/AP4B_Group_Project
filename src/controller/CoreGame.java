@@ -34,12 +34,12 @@ public class CoreGame {
         }
 
         // Si c'est le Prince, on peut se cibler soi-même (c'est autorisé)
-        if (!auMoinsUneCibleValide && carteActive.getNameCard().equals("Prince")) {
+        if (!auMoinsUneCibleValide && carteActive.getNameCard().equals("Responsable de module")) {
             auMoinsUneCibleValide = true; // On peut toujours se cibler soi-même avec le Prince
         }
 
         // Si aucune cible valide et que ce n'est pas le Prince
-        if (!auMoinsUneCibleValide && !carteActive.getNameCard().equals("Prince")) {
+        if (!auMoinsUneCibleValide && !carteActive.getNameCard().equals("Responsable de module")) {
             view.afficherMessage("Aucune cible disponible (tous les joueurs sont protégés ou éliminés).");
             return null;
         }
@@ -49,7 +49,7 @@ public class CoreGame {
             if (!p.isElimine()) {
                 view.afficherMessage(p.getId() + " - " + p.getNom() +
                         (p.hasProtection() ? " (protégé)" : "") +
-                        (p == joueurActif && carteActive.getNameCard().equals("Prince") ? " (vous-même - autorisé pour le Prince)" : ""));
+                        (p == joueurActif && carteActive.getNameCard().equals("Responsable de module") ? " (vous-même - autorisé pour le Responsable de module)" : ""));
             }
         }
 
@@ -87,7 +87,7 @@ public class CoreGame {
 
             // Auto-ciblage interdit (sauf Prince)
             if (cible == joueurActif &&
-                    !carteActive.getNameCard().equals("Prince")) {
+                    !carteActive.getNameCard().equals("Responsable de module")) {
                 view.afficherMessage("Vous ne pouvez pas vous viser vous-même.");
                 continue;
             }
@@ -383,8 +383,4 @@ public class CoreGame {
         }
         return x;
     }
-
-    //Exemple appel view
-    /*view.afficherMessage("Qui veux-tu viser ?");
-    String cible = view.lireSaisie();*/
 }

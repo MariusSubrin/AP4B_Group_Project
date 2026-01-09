@@ -9,13 +9,13 @@ import java.util.List;
 public class Roi extends Card {
     @Override
     public void appliquerEffet(Player joueurActif) {
-        CoreGame.view.afficherMessage("Le Roi a été joué. Échange de deux mains.");
+        CoreGame.view.afficherMessage(getNameCard() + " a été joué. Échange de deux mains.");
 
         Player choix = CoreGame.demanderCible(joueurActif, this);
 
         // Gérer le cas où aucune cible n'est disponible
         if (choix == null) {
-            CoreGame.view.afficherMessage("Aucune cible disponible pour le Roi. L'effet est annulé.");
+            CoreGame.view.afficherMessage("Aucune cible disponible pour" + getNameCard() + ". L'effet est annulé.");
             return;
         }
 
@@ -26,6 +26,6 @@ public class Roi extends Card {
     }
 
     public Roi() {
-        super("Roi", 7);
+        super("Responsable de filière", 7);
     }
 }

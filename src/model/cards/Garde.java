@@ -7,17 +7,17 @@ import java.util.List;
 
 public class Garde extends Card {
     private static final List<String> NOMS_CARTES_VALIDES = Arrays.asList(
-            "Princesse", "Comtesse", "Roi", "Chancelier", "Prince",
-            "Servante", "Baron", "Pretre", "Garde", "Espionne"
+            "Diplôme", "Étudiante exemplaire", "Responsable de filière", "Administration universitaire", "Responsable de module",
+            "Étudiante protégée", "Étudiant", "Délégué", "Étudiant surveillant", "Observateur discret"
     );
 
     @Override
     public void appliquerEffet(Player joueurActif) {
-        CoreGame.view.afficherMessage("La Garde a été jouée. Vous allez tenter de deviner la carte d'un autre joueur afin de l'éliminer");
+        CoreGame.view.afficherMessage(getNameCard() + " a été jouée. Vous allez tenter de deviner la carte d'un autre joueur afin de l'éliminer");
 
         Player cible = CoreGame.demanderCible(joueurActif, this);
         if (cible == null) {
-            CoreGame.view.afficherMessage("Aucune cible disponible pour la Garde. L'effet est annulé.");
+            CoreGame.view.afficherMessage("Aucune cible disponible pour" + getNameCard() + ". L'effet est annulé.");
             return;
         }
 
@@ -58,6 +58,6 @@ public class Garde extends Card {
     }
 
     public Garde() {
-        super("Garde", 1);
+        super("Étudiant surveillant", 1);
     }
 }

@@ -7,13 +7,13 @@ public class Prince extends Card {
 
     @Override
     public void appliquerEffet(Player joueurActif) {
-        CoreGame.view.afficherMessage("Le Prince a été joué. Un joueur ciblé défausse sa main.");
+        CoreGame.view.afficherMessage(getNameCard() + " a été joué. Un joueur ciblé défausse sa main.");
 
         Player choix = CoreGame.demanderCible(joueurActif, this);
 
         // Gérer le cas où aucune cible n'est disponible
         if (choix == null) {
-            CoreGame.view.afficherMessage("Aucune cible disponible pour le Prince. L'effet est annulé.");
+            CoreGame.view.afficherMessage("Aucune cible disponible pour" + getNameCard() + ". L'effet est annulé.");
             return;
         }
 
@@ -28,6 +28,6 @@ public class Prince extends Card {
     }
 
     public Prince() {
-        super("Prince", 5);
+        super("Responsable de module", 5);
     }
 }

@@ -7,7 +7,7 @@ public class Servante extends Card{
     @Override
     public void appliquerEffet(Player joueurActif) {
         // L'effet de la Servante est de protéger le joueur pendant un tour.
-        CoreGame.view.afficherMessage("La Servante a été jouée. " + joueurActif.getNom() + " est protégé(e) jusqu'à son prochain tour.");
+        CoreGame.view.afficherMessage(getNameCard() + " a été jouée. " + joueurActif.getNom() + " est protégé(e) jusqu'à son prochain tour.");
         joueurActif.protectionOn();
 
         //La protection repasse en Off à chaque début du tour d'un joueur
@@ -15,6 +15,6 @@ public class Servante extends Card{
     }
 
     public Servante() {
-        super("Servante", 4);
+        super("Étudiante protégée", 4);
     }
 }
