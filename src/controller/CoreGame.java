@@ -214,10 +214,7 @@ public class CoreGame {
         int i = 1;
 
         //On initialise la pioche que la première fois
-        if(i == 1) {
-            //Initialisation de la pioche
-            initPioche();
-        }
+        initPioche();
 
         while(joueurMaxFaveurs().getNombreFaveur() < winFaveurs){
             view.afficherMessage("Début de la manche " + i);
